@@ -1,5 +1,8 @@
 #pragma once
 #include "Scene.h"
+#include "Menu.h"
+#include "Ranking.h"
+#include "Level.h"
 
 //Enum con las tres escenas del juego
 enum estadoJuego { LEVEL, MENU, RANKING};
