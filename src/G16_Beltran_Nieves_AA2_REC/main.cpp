@@ -1,6 +1,8 @@
 #include "Game.h"
 
-void main()
+int main(int, char*[])
 {
+	Game game;
 
+	return 0;
 }

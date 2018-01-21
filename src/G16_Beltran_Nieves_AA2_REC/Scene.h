@@ -1,9 +1,11 @@
 #pragma once
-#include "Game.h"
 #include "Renderer.h"
 #include "Constants.h"
 #include <iostream>
-
+#include <sstream>
+#include <SDL_mixer.h>
+#ifndef SCENE_H
+#define SCENE_H
 
 enum estadoEscena { RUNNING, GOLEVEL1, GOLEVEL2, GORANK, GOMENU, EXIT };
 
@@ -22,6 +24,8 @@ public:
 	Scene();
 	~Scene();
 
+
+
 	// Función encargada de controlar los eventos
 	virtual void handleEvents() = 0;
 
@@ -36,3 +40,4 @@ public:
 };
 
 
+#endif

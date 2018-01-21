@@ -7,14 +7,14 @@ Menu::Menu()
 	estadoEscenaActual = estadoEscena::RUNNING;
 
 	// Cargamos la imagen del Background
-	Renderer::Instance()->LoadTexture("IMG_BACKGROUND", "../../res/img/Background_TopoBar.jpg");
+	Renderer::Instance()->LoadTexture("IMG_BACKGROUND", "../../res/img/Background_TopoBar.png");
 
 	// Cargamos las fuentes para el texto
 	Font fuenteBoton = { "LetraMenu", "../../res/ttf/saiyan.ttf", 80 };
 	Renderer::Instance()->LoadFont(fuenteBoton);
 
 	// Creamos las variables Text de todos los botones para poder cargar sus texturas
-	Color buttonColor = { 355, 355, 355, 0 }; // Color negre.
+	Color buttonColor = { 255, 255, 255 }; // Color negre.
 	Text textoBotonLEVEL1 = { "TXT_LEVEL1", "LEVEL ONE", buttonColor,80,80 };
 	Text textoBotonLEVEL2 = { "TXT_LEVEL2", "LEVEL TWO", buttonColor,80,80 };
 	Text textButtonRANKING = { "TXT_RANKING", "RANKING", buttonColor,80,80 };
@@ -54,6 +54,7 @@ void Menu::handleEvents()
 		}
 		case SDL_MOUSEBUTTONDOWN: // Si el ratón es clicado, se pone en true la variable ratonClicado
 		{
+			std::cout << "HOLA";
 			ratonClicado = true;
 			break;
 		}
@@ -85,7 +86,7 @@ void Menu::update()
 		estadoEscenaActual = estadoEscena::GORANK;
 	}
 	// Si se pulsa el boton EXIT, se cambia el estado de la escena a EXIT
-	else if (ratonClicado && botonesMenu[1].ratonSobreBoton(xRaton, yRaton))
+	else if (ratonClicado && botonesMenu[3].ratonSobreBoton(xRaton, yRaton))
 	{
 		estadoEscenaActual = estadoEscena::EXIT;
 	}

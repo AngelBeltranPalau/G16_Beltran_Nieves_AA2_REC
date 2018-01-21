@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 #include "Button.h"
+#ifndef MENU_H
+#define MENU_H
 
 class Menu : public Scene
 {
@@ -9,13 +11,13 @@ public:
 	~Menu();
 
 	// Función encargada de controlar los eventos
-	virtual void handleEvents() = 0;
+	void handleEvents() override;
 
 	// Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
-	virtual void update() = 0;
+	void update() override;
 
 	// Función encargada de dibujar la escena
-	virtual void draw() = 0;
+	void draw() override;
 
 
 private:
@@ -30,3 +32,4 @@ private:
 	bool ratonClicado;
 
 };
+#endif
