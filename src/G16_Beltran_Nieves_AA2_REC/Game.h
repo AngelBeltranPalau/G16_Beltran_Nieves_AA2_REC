@@ -4,6 +4,8 @@
 #include "Ranking.h"
 #include "Level.h"
 
+//ESTA CLASE GESTIONA EL ESTADO DEL JUEGO Y SE ENCARGA DE CAMBIAR ENTRE ESCENAS
+
 //Enum con las tres escenas del juego
 enum estadoJuego { LEVEL, MENU, RANKING};
 
