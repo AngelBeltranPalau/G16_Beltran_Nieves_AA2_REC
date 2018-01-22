@@ -9,7 +9,7 @@ Map::Map()
 
 	// Cargamos la imagen de los items
 	Renderer::Instance()->LoadTexture("Items", "../../res/img/items.png");
-	rectItems = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
+	rectItems = { 0,0,TAMAÑO_SPRITE* 3 / 2,TAMAÑO_SPRITE* 3 / 2 };
 
 	hielo = { 0, 0, TAMAÑO_SPRITE, TAMAÑO_SPRITE };
 	muro = { TAMAÑO_SPRITE, 0, TAMAÑO_SPRITE, TAMAÑO_SPRITE, };
@@ -32,9 +32,9 @@ std::vector<SDL_Rect> Map::devolverRectOcupado()
 
 void Map::inicializarRectOcupado()
 {
-	for (int y = 0; y<8; y++)
+	for (int y = 0; y<Y_MAPA; y++)
 	{
-		for (int x = 0; x<6; x++)
+		for (int x = 0; x<X_MAPA; x++)
 		{
 			rectItems.x = 0 + x*TAMAÑO_SPRITE;
 			rectItems.y = TAMAÑO_SPRITE + y*TAMAÑO_SPRITE;
@@ -72,32 +72,35 @@ void Map::update()
 void Map::draw()
 {
 	// Recorrem l'unordered map table en la seva totalitat.
-	for (int y = 0; y<8; y++)
+	for (int y = 0; y<Y_MAPA; y++)
 	{
-		for (int x = 0; x < 6; x++)
+		for (int x = 0; x < X_MAPA; x++)
 		{
 			// Actualitzem les variables per a així anar imprimint els obstacles/items quan fagi falta.
-			rectItems.x = 0 + x*TAMAÑO_SPRITE;
-			rectItems.y = TAMAÑO_SPRITE + y*TAMAÑO_SPRITE;
+			rectItems.x = 0 + x*TAMAÑO_SPRITE* 3 / 2;
+			rectItems.y = 80 + y*TAMAÑO_SPRITE* 3 / 2;
 			// Si l'element x,y de table és buit, no imprimirem res.
 			// Pels altres casos, imprimirem el que toqui.
 			if (tablaPosiciones[{x, y}] == "MURO")
 			{
-				Renderer::Instance()->PushSprite("items", muro, rectItems);
+				Renderer::Instance()->PushSprite("Items", muro, rectItems);
 			}
 			else if (tablaPosiciones[{x, y}] == "HIELO")
 			{
-				Renderer::Instance()->PushSprite("items", hielo, rectItems);
+				Renderer::Instance()->PushSprite("Items", hielo, rectItems);
 			}
 			else if (tablaPosiciones[{x, y}] == "SOLUCION_VERDE")
 			{
-				Renderer::Instance()->PushSprite("items", solucionVerde, rectItems);
+				Renderer::Instance()->PushSprite("Items", solucionVerde, rectItems);
 			}
 			else if (tablaPosiciones[{x, y}] == "SOLUCION_ROJO")
 			{
-				Renderer::Instance()->PushSprite("items", solucionRoja, rectItems);
+				Renderer::Instance()->PushSprite("Items", solucionRoja, rectItems);
 			}
 		}
 	}
+
+
+
 }
 

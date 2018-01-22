@@ -43,14 +43,30 @@ Level::Level(const int &nLevel)
 		// Ara guardarem la informació sobre les diferents caselles.
 		rapidxml::xml_node<> *muros = pLevel->first_node("Walls")->first_node("Wall"); // Apunta al primer node casella Destructible.
 
+		for (int i = 0; i < Y_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", 0, i);
+		}
+		for (int i = 0; i < X_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", i, 0);
+		}
+		for (int i = 0; i < Y_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", X_MAPA-1, i);
+		}
+		for (int i = 0; i < X_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", i, Y_MAPA-1);
+		}
 		while (muros != nullptr)
 		{
-			miMap.añadirItem("MURO", atoi(muros->first_attribute("i")->value()) - 1, atoi(muros->first_attribute("j")->value()) - 1); // Ara guardem a myMap el valor de la casella actual.
+			miMap.añadirItem("MURO", atoi(muros->first_attribute("j")->value()) + 1, atoi(muros->first_attribute("i")->value())+ 1); // Ara guardem a myMap el valor de la casella actual.
 			muros = muros->next_sibling();
 		}
-		for (int y = 0; y<8; y++)
+		for (int y = 0; y<Y_MAPA; y++)
 		{
-			for (int x = 0; x<6; x++)
+			for (int x = 0; x<X_MAPA; x++)
 			{
 				if (miMap.devolverContenidoPosicion(x, y) != "MURO" && miMap.devolverContenidoPosicion(x, y) != "SOLUCION_VERDE" && miMap.devolverContenidoPosicion(x, y) != "SOLUCION_ROJO")
 				{
@@ -58,9 +74,30 @@ Level::Level(const int &nLevel)
 				}
 			}
 		}
+		for (int i = 0; i < X_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", 0, i);
+		}
 	}
 	else if (nLevel == 2)
 	{
+
+		for (int i = 0; i < Y_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", 0, i);
+		}
+		for (int i = 0; i < X_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", i, 0);
+		}
+		for (int i = 0; i < Y_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", X_MAPA - 1, i);
+		}
+		for (int i = 0; i < X_MAPA; i++)
+		{
+			miMap.añadirItem("MURO", i, Y_MAPA - 1);
+		}
 		// Busquem fins que pLevel apunti al nivell 1.
 		while ((std::string)pLevel->first_attribute("id")->value() != "2")
 		{
@@ -83,12 +120,12 @@ Level::Level(const int &nLevel)
 
 		while (muros != nullptr)
 		{
-			miMap.añadirItem("MURO", atoi(muros->first_attribute("i")->value()) - 1, atoi(muros->first_attribute("j")->value()) - 1); // Ara guardem a myMap el valor de la casella actual.
+			miMap.añadirItem("MURO", atoi(muros->first_attribute("j")->value()) + 1, atoi(muros->first_attribute("i")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 			muros = muros->next_sibling();
 		}
-		for (int y = 0; y<8; y++)
+		for (int y = 0; y<Y_MAPA; y++)
 		{
-			for (int x = 0; x<6; x++)
+			for (int x = 0; x<X_MAPA; x++)
 			{
 				if (miMap.devolverContenidoPosicion(x, y) != "MURO" && miMap.devolverContenidoPosicion(x, y) != "SOLUCION_VERDE" && miMap.devolverContenidoPosicion(x, y) != "SOLUCION_ROJO")
 				{
