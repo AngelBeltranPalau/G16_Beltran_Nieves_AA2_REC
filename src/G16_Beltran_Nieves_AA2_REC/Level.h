@@ -11,6 +11,10 @@
 #include "../../dep/inc/XML/rapidxml_print.hpp"
 #include "Renderer.h"
 #include <time.h>
+#include <math.h>
+#include <unordered_map>
+#include <functional>
+#include <utility>
 
 
 class Level : public Scene

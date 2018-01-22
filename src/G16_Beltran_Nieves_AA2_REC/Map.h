@@ -9,7 +9,7 @@ class Map
 public:
 	Map();
 	~Map();
-
+	
 	// Función que devuelve las posiciones ocupadas
 	std::vector<SDL_Rect> devolverRectOcupado();
 

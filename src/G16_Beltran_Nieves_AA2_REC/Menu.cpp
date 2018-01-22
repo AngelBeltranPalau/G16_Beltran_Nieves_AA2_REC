@@ -3,6 +3,10 @@
 
 Menu::Menu()
 {
+	ratonClicado = false;
+	xRaton = 0;
+	yRaton = 0;
+
 	// Se inicializa el Menú en estado RUNNING
 	estadoEscenaActual = estadoEscena::RUNNING;
 

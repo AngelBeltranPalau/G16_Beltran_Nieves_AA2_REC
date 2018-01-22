@@ -62,7 +62,7 @@ Level::Level(const int &nLevel)
 	else if (nLevel == 2)
 	{
 		// Busquem fins que pLevel apunti al nivell 1.
-		while ((std::string)pLevel->first_attribute("id")->value() != "1")
+		while ((std::string)pLevel->first_attribute("id")->value() != "2")
 		{
 			pLevel = pLevel->next_sibling();
 		}
