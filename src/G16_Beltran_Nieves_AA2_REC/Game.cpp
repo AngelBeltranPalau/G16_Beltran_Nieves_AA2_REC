@@ -21,14 +21,14 @@ Game::Game()
 		{
 			delete escenaActual;
 			estadoActual = estadoJuego::LEVEL;
-			escenaActual = new Level;//(1);
+			escenaActual = new Level(1);
 		}
 		// Si el estado de la escena actual es GOTOLEVEL2, se cambia la escena actual a Level(2)
 		if (escenaActual->getEstadoEscena() == estadoEscena::GOLEVEL2)
 		{
 			delete escenaActual;
 			estadoActual = estadoJuego::LEVEL;
-			escenaActual = new Level;// (2);
+			escenaActual = new Level(2);
 		}
 		// Si el estado de la escena actual es GOMENU, se cambia la escena actual a Menu
 		if (escenaActual->getEstadoEscena() == estadoEscena::GOMENU)
