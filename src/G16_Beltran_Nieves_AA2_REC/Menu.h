@@ -1,8 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Button.h"
-#ifndef MENU_H
-#define MENU_H
+
 
 class Menu : public Scene
 {
@@ -31,5 +30,10 @@ private:
 	// Booleano que indica si el ratón está o no pulsado
 	bool ratonClicado;
 
+	bool ratonSobreBotonLevel1;
+	bool ratonSobreBotonLevel2;
+	bool ratonSobreBotonRanking;
+	bool ratonSobreBotonExit;
+
+
 };
-#endif

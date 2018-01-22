@@ -21,7 +21,7 @@ const std::string PATH_AU = "../../res/au/";
 const std::string SAIYAN_80 = "SAIYAN_80";
 const std::string LUIGI_40 = "LUIGI_40";
 
-const int BOTONES_TOTALES = 4;
+const int BOTONES_TOTALES = 8;
 const int JUGADORES_TOTALES = 2;
 const int TAMAÑO_SPRITE = 48;
 
