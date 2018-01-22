@@ -160,6 +160,21 @@ Level::Level(const int &nLevel)
 
 	miMap.inicializarRectOcupado();
 
+
+	// Cargamos todos los sprites de los jugadores
+
+	Renderer::Instance()->LoadTexture("SpriteJugador1", "../../res/img/player.png"); // Sprites jugador 1.
+	Renderer::Instance()->LoadTexture("SpriteJugador2", "../../res/img/player2.png"); // Sprites jugador 2.
+
+	// Creamos y guardamos los rectangulos.
+	
+	SDL_Rect rectJugador1 = { 0, 0, TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
+	jugadores[0].setRectanguloSprite(rectJugador1);
+	
+	SDL_Rect rectJugador2 = { 0,0,TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
+	jugadores[1].setRectanguloSprite(rectJugador2);
+
+
 }
 
 

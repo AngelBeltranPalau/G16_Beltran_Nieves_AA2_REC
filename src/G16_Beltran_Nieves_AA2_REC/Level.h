@@ -20,6 +20,10 @@
 class Level : public Scene
 {
 public:
+
+	// Array de players.
+	Player jugadores[JUGADORES_TOTALES];
+
 	Level(const int &nLevel);
 	~Level();
 
