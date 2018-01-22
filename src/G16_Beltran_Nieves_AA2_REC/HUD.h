@@ -19,6 +19,9 @@ private:
 	SDL_Rect plMoves1Rect;
 	SDL_Rect plMoves2Rect;
 	SDL_Rect secRect;
+	SDL_Rect realMoves1Rect;
+	SDL_Rect realMoves2Rect;
+	SDL_Rect realSecRect;
 
 
 	// Variable tiempo del HUD

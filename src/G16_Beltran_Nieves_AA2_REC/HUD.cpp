@@ -28,6 +28,42 @@ HUD::HUD()
 
 }
 
+// Simplement actualitzem les variables
+void HUD::update(int &t, std::vector<int> &movimientos)
+{
+	tiempoHud = t;
+	movimientosHud = movimientos;
+	//Color colorMoves = { 0,0,0 };
+
+	//Text textoPlMoves1 = { "PlMoves1", "Pl 1 moves: " + movimientosHud[0] , colorMoves,30,30 };
+	//Text textoPlMoves2 = { "PlMoves2", "Pl 2 moves: " + movimientosHud[1] , colorMoves,30,30 };
+
+	//Color colorSec = { 255,255,255 };
+	//Text textoSec = { "Sec", "sec. "+ tiempoHud, colorSec, 30, 30 };
+
+
+	//Renderer::Instance()->LoadTextureText("letraHud", textoPlMoves1);
+	//Renderer::Instance()->LoadTextureText("letraHud", textoPlMoves2);
+	//Renderer::Instance()->LoadTextureText("letraHud", textoSec);
+
+
+	Color colorMoves = { 0, 0, 0 };
+	Color colorSec = { 255, 255, 255 };
+
+	Text PlMoves1 = { "Moves1", std::to_string(movimientosHud[0]), colorMoves,30,30 };
+	Text PlMoves2 = { "Moves2", std::to_string(movimientosHud[1]), colorMoves,30,30 };
+	Text Sec = { "sec", std::to_string(tiempoHud) , colorSec, 30, 30 };
+
+	Renderer::Instance()->LoadTextureText("letraHud", PlMoves1);
+	Renderer::Instance()->LoadTextureText("letraHud", PlMoves2);
+	Renderer::Instance()->LoadTextureText("letraHud", Sec);
+
+	realMoves1Rect = { HUD_WIDTH / 2 - Renderer::Instance()->GetTextureSize(PlMoves1.id).x / 2 - 40, HUD_HEIGHT / 3 - Renderer::Instance()->GetTextureSize(PlMoves1.id).y / 2, Renderer::Instance()->GetTextureSize(PlMoves1.id).x, Renderer::Instance()->GetTextureSize(PlMoves1.id).y };
+	realMoves2Rect = { HUD_WIDTH / 2 - Renderer::Instance()->GetTextureSize(PlMoves2.id).x / 2 - 40, 2* HUD_HEIGHT / 3 - Renderer::Instance()->GetTextureSize(PlMoves2.id).y / 2, Renderer::Instance()->GetTextureSize(PlMoves2.id).x, Renderer::Instance()->GetTextureSize(PlMoves2.id).y };
+	realSecRect = { HUD_WIDTH - 50 - Renderer::Instance()->GetTextureSize(Sec.id).x / 2 , HUD_HEIGHT / 2 - Renderer::Instance()->GetTextureSize(Sec.id).y / 2, Renderer::Instance()->GetTextureSize(Sec.id).x, Renderer::Instance()->GetTextureSize(Sec.id).y };
+
+}
+
 // Imprimim les variables del HUD.
 void HUD::draw()
 {
@@ -35,16 +71,10 @@ void HUD::draw()
 	Renderer::Instance()->PushImage("PlMoves2", plMoves2Rect);
 	Renderer::Instance()->PushImage("Sec", secRect);
 
-}
+	Renderer::Instance()->PushImage("Moves1", realMoves1Rect);
+	Renderer::Instance()->PushImage("Moves2", realMoves2Rect);
+	Renderer::Instance()->PushImage("sec", realSecRect);
 
-// Simplement actualitzem les variables
-void HUD::update(int &t, std::vector<int> &movimientos)
-{
-	tiempoHud = t;
-	movimientosHud = movimientos;
-	Color textColor = { 255,0,0,0 }; // Color negre.
-	//Text textHUD = { TEXT_HUD, "       Vides P1: " + std::to_string(hudLifes[PLAYER_1]) + "/ Score P1: " + std::to_string(hudScores[PLAYER_1]) + " TIME: " + std::to_string(hudTime) + " / Vides P2: " + std::to_string(hudLifes[PLAYER_2]) + "/  Score P2: " + std::to_string(hudScores[PLAYER_2]) + "" , textColor,120,120 };
-	//Renderer::Instance()->LoadTextureText(GAME_OVER, textHUD);
 }
 
 HUD::~HUD()

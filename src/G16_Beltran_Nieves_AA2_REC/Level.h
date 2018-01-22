@@ -43,10 +43,13 @@ private:
 	// Map del nivel
 	Map miMap;
 
-	// TTiempo de partida
+	// Tiempo de partida
 	clock_t lastTime = clock();
 	float timeDown;
 	float deltaTime = 0;
+
+	// Vector que guarda los movimientos de los jugadores
+	std::vector<int>movimientos;
 
 };
 

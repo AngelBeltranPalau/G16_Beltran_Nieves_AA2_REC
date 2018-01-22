@@ -33,12 +33,14 @@ Level::Level(const int &nLevel)
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
+		
+		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
+		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
 			
-			//players[i].setHealth(atoi(pLevel->first_attribute("lives")->value()));
 		
 		//// Accedim al node time i n'agafem la informació.
 		//timeDown = atoi(pLevel->first_attribute("time")->value());
@@ -93,10 +95,15 @@ Level::Level(const int &nLevel)
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
+
+		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
+		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
+
+
 
 		for (int i = 0; i < Y_MAPA; i++)
 		{
@@ -164,7 +171,17 @@ Level::~Level()
 void Level::handleEvents() {};
 
 // Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
-void Level::update() {};
+void Level::update() 
+{
+	deltaTime = (clock() - lastTime);
+	lastTime = clock();
+	deltaTime /= CLOCKS_PER_SEC;
+	timeDown -= deltaTime;
+	int time = (int)timeDown;
+
+	miHUD.update(time, movimientos);
+
+};
 
 
 // Función encargada de dibujar la escena
