@@ -32,11 +32,14 @@ Level::Level(const int &nLevel)
 		// Accedim al node time i n'agafem la informació.
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
-		//// Accedim al node playerHealth i n'agafem la informació.
-		//for (int i = 0; i<JUGADORES_TOTALES; i++)
-		//{
-		//	players[i].setHealth(atoi(pLevel->first_attribute("lives")->value()));
-		//}
+		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
+		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		soluciones = soluciones->next_sibling();
+		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		soluciones = soluciones->next_sibling();
+			
+			//players[i].setHealth(atoi(pLevel->first_attribute("lives")->value()));
+		
 		//// Accedim al node time i n'agafem la informació.
 		//timeDown = atoi(pLevel->first_attribute("time")->value());
 
@@ -81,6 +84,19 @@ Level::Level(const int &nLevel)
 	}
 	else if (nLevel == 2)
 	{
+		while ((std::string)pLevel->first_attribute("id")->value() != "2")
+		{
+			pLevel = pLevel->next_sibling();
+		}
+
+		// Accedim al node time i n'agafem la informació.
+		timeDown = atoi(pLevel->first_attribute("time")->value());
+
+		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
+		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		soluciones = soluciones->next_sibling();
+		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		soluciones = soluciones->next_sibling();
 
 		for (int i = 0; i < Y_MAPA; i++)
 		{
@@ -150,6 +166,7 @@ void Level::handleEvents() {};
 // Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 void Level::update() {};
 
+
 // Función encargada de dibujar la escena
 void Level::draw()
 {
@@ -159,6 +176,8 @@ void Level::draw()
 
 	// Dibuixem el mapa.
 	miMap.draw();
+
+	miHUD.draw();
 
 
 	Renderer::Instance()->Render(); // Fem el render al final del draw.

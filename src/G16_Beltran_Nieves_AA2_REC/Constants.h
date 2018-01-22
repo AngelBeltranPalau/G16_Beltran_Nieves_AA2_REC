@@ -28,3 +28,7 @@ const int TAMAÑO_SPRITE = 48;
 const int X_MAPA = 6;
 const int Y_MAPA = 7;
 
+const int HUD_WIDTH = 432;
+const int HUD_HEIGHT = 80;
+
+
