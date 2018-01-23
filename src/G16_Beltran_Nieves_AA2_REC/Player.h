@@ -30,12 +30,18 @@ private:
 	// Rectangulo del sprite jugador.
 	SDL_Rect RectanguloSprite;
 
+	//Rectangulo del jugador
+	SDL_Rect Rectangulo;
+
 	
 
 public:
 
 	void setRectanguloSprite(SDL_Rect sprite);
 	SDL_Rect getRectanguloSprite();
+	void setRectangulo(SDL_Rect sprite);
+	SDL_Rect getRectangulo();
+
 	void update ();
 	void draw();
 	void handleEvents();

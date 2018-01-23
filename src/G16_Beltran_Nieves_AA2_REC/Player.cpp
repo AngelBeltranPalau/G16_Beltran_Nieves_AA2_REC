@@ -23,10 +23,20 @@ SDL_Rect Player::getRectanguloSprite()
 	return RectanguloSprite;
 }
 
-
-void Player::setRectanguloSprite(SDL_Rect sprite) 
+SDL_Rect Player::getRectangulo()
 {
-	RectanguloSprite = sprite;
+	return Rectangulo;
+}
+
+
+void Player::setRectanguloSprite(SDL_Rect rect) 
+{
+	RectanguloSprite = rect;
+}
+
+void Player::setRectangulo(SDL_Rect rect)
+{
+	Rectangulo = rect;
 }
 
 void handleEvents() 

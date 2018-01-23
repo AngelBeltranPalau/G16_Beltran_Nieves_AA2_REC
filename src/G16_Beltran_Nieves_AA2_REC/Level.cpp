@@ -169,12 +169,18 @@ Level::Level(const int &nLevel)
 	// Creamos y guardamos los rectangulos.
 	
 	SDL_Rect rectJugador1 = { 0, 0, TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	jugadores[0].setRectanguloSprite(rectJugador1);
-	
+	jugadores[0].setRectangulo(rectJugador1);
+	SDL_Rect rectSpriteJugador1 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
+	jugadores[0].setRectanguloSprite(rectSpriteJugador1);
+
 	SDL_Rect rectJugador2 = { 0,0,TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	jugadores[1].setRectanguloSprite(rectJugador2);
+	jugadores[1].setRectangulo(rectJugador2);
+	SDL_Rect rectSpriteJugador2 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
+	jugadores[0].setRectanguloSprite(rectSpriteJugador2);
 
 
+	RectJugadores[0] = jugadores[0].getRectangulo();
+	RectJugadores[1] = jugadores[1].getRectangulo();
 }
 
 
