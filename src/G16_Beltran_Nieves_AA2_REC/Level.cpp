@@ -227,7 +227,7 @@ void Level::setDestino(Direcciones dir)
 	{
 		for (int i; i<JUGADORES_TOTALES; i++)
 		{
-			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY) != 'Muro')
+			while (miMap.devolverContenidoPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY) != "Muro")
 			{
 				jugadores[i]->setPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY);
 			}

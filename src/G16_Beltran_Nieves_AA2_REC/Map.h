@@ -17,7 +17,7 @@ public:
 	void inicializarRectOcupado();
 
 	// Función que devuelve el contenido de una posición
-	std::string devolverContenidoPosicion(const int &x, const int &y);
+	std::string devolverContenidoPosicion(/*const*/ int &x, /*const*/ int &y);
 
 	void añadirPosicionOcupada(const SDL_Rect &r);
 

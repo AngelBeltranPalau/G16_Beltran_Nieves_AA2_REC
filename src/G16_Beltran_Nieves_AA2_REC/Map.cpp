@@ -49,7 +49,7 @@ void Map::inicializarRectOcupado()
 	}
 }
 
-std::string Map::devolverContenidoPosicion(const int & x, const int & y)
+std::string Map::devolverContenidoPosicion(/*const*/ int & x, /*const*/ int & y)
 {
 	return tablaPosiciones[{x, y}];
 }
