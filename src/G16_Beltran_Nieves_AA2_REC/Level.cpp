@@ -165,6 +165,15 @@ Level::Level(const int &nLevel)
 	jugadores[1]->setPosicionRealX();
 	jugadores[1]->setPosicionRealY();
 
+	jugadores[0]->setPosicion(jugadores[0]->getPosicionX()+1, jugadores[0]->getPosicionY() + 1);
+	jugadores[1]->setPosicion(jugadores[1]->getPosicionX() + 1, jugadores[1]->getPosicionY() + 1);
+
+
+	jugadores[0]->setMovimientos(movimientos[0]);
+	jugadores[1]->setMovimientos(movimientos[1]);
+
+	movimientos[0] = jugadores[0]->getMovimientos();
+	movimientos[1] = jugadores[1]->getMovimientos();
 
 	miMap.inicializarRectOcupado();
 
@@ -181,21 +190,6 @@ void Level::setDestino(Direcciones dir)
 	int x = 0;
 	if(dir == UP)
 	{
-		for(int i = 0; i<JUGADORES_TOTALES; i++)
-		{
-			int auxX = jugadores[i]->getPosicionX();
-			int auxY = jugadores[i]->getPosicionY();
-			auxY++;
-			while ( miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
-			{
-				jugadores[i]->setPosicion(auxX, auxY);				
-			}
-		}
-		
-	}
-
-	if (dir == DOWN)
-	{
 		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
 			int auxX = jugadores[i]->getPosicionX();
@@ -204,9 +198,25 @@ void Level::setDestino(Direcciones dir)
 			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
 				jugadores[i]->setPosicion(auxX, auxY);
+				auxY--;
 			}
 		}
+	}
 
+	if (dir == DOWN)
+	{
+		for (int i = 0; i<JUGADORES_TOTALES; i++)
+		{
+			int auxX = jugadores[i]->getPosicionX();
+			int auxY = jugadores[i]->getPosicionY();
+			auxY++;
+			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+			{
+				jugadores[i]->setPosicion(auxX, auxY);
+				auxY++;
+			}
+		}
+		
 	}
 
 	if (dir == RIGHT)
@@ -215,8 +225,8 @@ void Level::setDestino(Direcciones dir)
 		{
 			int auxX = jugadores[i]->getPosicionX();
 			int auxY = jugadores[i]->getPosicionY();
-			auxX = auxX + 2;
-			auxY++;
+			auxX++;
+			auxY;
 			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
 				jugadores[i]->setPosicion(auxX, auxY);
@@ -236,10 +246,21 @@ void Level::setDestino(Direcciones dir)
 			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
 				jugadores[i]->setPosicion(auxX, auxY);
+				auxX--;
 			}
 		}
 
 	}
+
+	//if (jugadores[0]->getPosicionX() != jugadores[0]->getPosicionRealX() || jugadores[0]->getPosicionY() != jugadores[0]->getPosicionRealY())
+	//{
+	//	jugadores[0]->reducirMovimiento();
+	//}
+	//if (jugadores[1]->getPosicionX() != jugadores[1]->getPosicionRealX() || jugadores[1]->getPosicionY() != jugadores[1]->getPosicionRealY())
+	//{
+	//	jugadores[1]->reducirMovimiento();
+	//}
+
 }
 
 
@@ -303,12 +324,18 @@ void Level::update()
 	timeDown -= deltaTime;
 	int time = (int)timeDown;
 
+	movimientos[0] = jugadores[0]->getMovimientos();
+	movimientos[1] = jugadores[1]->getMovimientos();
+
+
 	miHUD.update(time, movimientos);
 
-	
-	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
-	{
-		setDestino(jugadores[0]->getDireccion());
+	if(jugadores[0]->getPosicionX() == jugadores[0]->getPosicionRealX() || jugadores[0]->getPosicionY() == jugadores[0]->getPosicionRealY() || jugadores[1]->getPosicionX() == jugadores[1]->getPosicionRealX() || jugadores[1]->getPosicionY() == jugadores[1]->getPosicionRealY())
+	{ 
+		if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
+		{
+			setDestino(jugadores[0]->getDireccion());
+		}
 	}
 
 	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)

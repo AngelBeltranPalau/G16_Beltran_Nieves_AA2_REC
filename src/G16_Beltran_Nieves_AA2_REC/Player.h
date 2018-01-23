@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Constants.h"
+#include <math.h>
 
 #pragma once
 
@@ -65,12 +66,19 @@ public:
 	void setPosicion(int x, int y);
 	int getPosicionX();
 	int getPosicionY();
+	int getPosicionRealX();
+	int getPosicionRealY();
 	
 	void setMoviendose( bool mov);
 	bool getMoviendose();
 
 	void setPosicionRealX();
 	void setPosicionRealY();
+
+	int getMovimientos();
+	void setMovimientos(int x);
+
+	void reducirMovimiento();
 
 
 	void update ();

@@ -9,6 +9,8 @@ Player::Player(const int &num)
 	posicionRealX = posicionX;
 	posicionRealY = posicionY;
 
+
+
 	direccion = Direcciones::NONE;
 
 	if (numJugador == 1)
@@ -78,25 +80,40 @@ int Player::getPosicionY()
 	return posicionY;
 }
 
-void Player::setMoviendose(bool mov)
+int Player::getPosicionRealX()
 {
+	return posicionRealX;
 }
 
-bool Player::getMoviendose()
+int Player::getPosicionRealY()
 {
-	return false;
+	return posicionRealY;
 }
 
 void Player::setPosicionRealX()
 {
-	posicionRealX = posicionX;
+	posicionRealX = posicionX + 1;
 }
 
 void Player::setPosicionRealY()
 {
-	posicionRealY = posicionY;
+	posicionRealY = posicionY + 1;
 }
 
+void Player::reducirMovimiento()
+{
+	movimientos--;
+}
+
+int Player::getMovimientos()
+{
+	return movimientos;
+}
+
+void Player::setMovimientos(int x)
+{
+	movimientos = x;
+}
 
 void Player::setRectanguloSprite(SDL_Rect rect) 
 {
@@ -112,15 +129,15 @@ void Player::draw()
 {
 	if (numJugador == 1)
 	{
-		RectanguloSprite.x = 0 + (posicionRealX + 1)*TAMAÑO_SPRITE * 3 / 2 + 12;
-		RectanguloSprite.y = 80 + (posicionRealY + 1)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
 
 		Renderer::Instance()->PushSprite("Jugador1", spriteLEFTidle, RectanguloSprite);
 	}
 	if (numJugador == 2)
 	{
-		RectanguloSprite.x = 0 + (posicionRealX + 1)*TAMAÑO_SPRITE * 3 / 2 + 12;
-		RectanguloSprite.y = 80 + (posicionRealY + 1)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
 
 		Renderer::Instance()->PushSprite("Jugador2", spriteLEFTidle, RectanguloSprite);
 	}
@@ -130,34 +147,58 @@ void Player::draw()
 
 void Player::update()
 {
-	if (posicionX != posicionRealX || posicionY != posicionRealY)
-	{
-		if (direccion == UP)
+
+	float auxX = posicionX - (posicionRealX);
+	float auxY = (posicionY) - (posicionRealY);
+
+
+		if (direccion == Direcciones::UP)
 		{
-			posicionRealY = posicionRealY + 1/10;
+			if(auxY < -0.05)
+			posicionRealY -= 0.05;
+			else
+			{
+				direccion = Direcciones::NONE;
+				posicionRealY = posicionY;
+				reducirMovimiento();
+			}
 		}
-		else if (direccion == DOWN)
+
+		if (direccion == Direcciones::DOWN)
 		{
-			posicionRealY = posicionRealY- 1 / 10;
+			if (auxY > 0.05)
+			posicionRealY += 0.05;
+			else
+			{
+				direccion = Direcciones::NONE;
+				posicionRealY = posicionY;
+				reducirMovimiento();
+			}
 		}
-		else if (direccion == RIGHT)
+
+
+		if (direccion == Direcciones::RIGHT)
 		{
-			posicionRealX = posicionRealX + 1 / 10;
+			if (auxX > 0.05)
+			posicionRealX  += 0.05;
+			else
+			{
+				direccion = Direcciones::NONE;
+				posicionRealX = posicionX;
+				reducirMovimiento();
+			}
 		}
-		else if (direccion == LEFT)
+
+		if (direccion == Direcciones::LEFT)
 		{
-			posicionRealX = posicionRealX- 1 / 10;
+			if (auxX < -0.05)
+			posicionRealX -= 0.05;
+			else
+			{
+				direccion = Direcciones::NONE;
+				posicionRealX = posicionX;
+				reducirMovimiento();
+			}
 		}
-		else if (direccion == NONE) 
-		{
-		}
-		else
-		{
-			std::cout << "ERROR EN LA DIRECCION";
-		}
-	}
-	else
-	{
-		direccion = NONE;
-	}
+
 }
