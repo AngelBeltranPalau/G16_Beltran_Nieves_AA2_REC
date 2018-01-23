@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Constants.h"
+
 #pragma once
 
 
@@ -49,6 +50,8 @@ private:
 	Direcciones direccion;
 
 
+
+
 public:
 
 	void setRectanguloSprite(SDL_Rect sprite);
@@ -65,6 +68,7 @@ public:
 	
 	void setMoviendose( bool mov);
 	bool getMoviendose();
+
 
 	void update ();
 	void draw();

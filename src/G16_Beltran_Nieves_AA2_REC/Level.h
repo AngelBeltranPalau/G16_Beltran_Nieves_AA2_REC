@@ -50,6 +50,8 @@ private:
 	float timeDown;
 	float deltaTime = 0;
 
+	void setDestino(Direcciones dir);
+
 	// Vector que guarda los movimientos de los jugadores
 	std::vector<int>movimientos;
 

@@ -1,5 +1,5 @@
 #include "Player.h"
-
+#include <iostream>
 
 
 Player::Player(const int &num)
@@ -108,5 +108,38 @@ void Player::draw()
 		RectanguloSprite.y = 80 + (posicionRealY + 1)*TAMAÑO_SPRITE * 3 / 2 + 12;
 
 		Renderer::Instance()->PushSprite("Jugador2", spriteLEFTidle, RectanguloSprite);
+	}
+}
+
+
+
+void Player::update()
+{
+	if (posicionX != posicionRealX)
+	{
+		if (direccion == UP)
+		{
+			posicionRealY++;
+		}
+		if (direccion == DOWN)
+		{
+			posicionRealY--;
+		}
+		if (direccion == RIGHT)
+		{
+			posicionRealX++;
+		}
+		if (direccion == LEFT)
+		{
+			posicionRealX--;
+		}
+		else
+		{
+			std::cout << "error lokisimo";
+		}
+	}
+	else
+	{
+		direccion = NONE;
 	}
 }

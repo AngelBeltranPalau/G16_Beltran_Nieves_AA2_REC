@@ -197,6 +197,57 @@ Level::~Level()
 {
 }
 
+void Level::setDestino(Direcciones dir)
+{
+	if(dir == UP)
+	{
+		for(int i; i<JUGADORES_TOTALES; i++)
+		{
+			while ( Map::devolverContenidoPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY + 1) != 'Muro')
+			{
+				jugadores[i]->setPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY + 1);				
+			}
+		}
+		
+	}
+
+	if (dir == DOWN)
+	{
+		for (int i; i<JUGADORES_TOTALES; i++)
+		{
+			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY - 1) != 'Muro')
+			{
+				jugadores[i]->setPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY - 1);
+			}
+		}
+
+	}
+
+	if (dir == RIGHT)
+	{
+		for (int i; i<JUGADORES_TOTALES; i++)
+		{
+			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY) != 'Muro')
+			{
+				jugadores[i]->setPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY);
+			}
+		}
+
+	}
+
+	if (dir == LEFT)
+	{
+		for (int i; i<JUGADORES_TOTALES; i++)
+		{
+			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX - 1, jugadores[i]->getPosicionY) != 'Muro')
+			{
+				jugadores[i]->setPosicion(jugadores[i]->getPosicionX - 1, jugadores[i]->getPosicionY);
+			}
+		}
+
+	}
+}
+
 // Función encargada de controlar los eventos
 void Level::handleEvents() 
 {
