@@ -9,6 +9,11 @@ Level::Level(const int &nLevel)
 
 	miMap.inicializarRectOcupado();
 
+
+	jugadores[0] = new Player(1);
+	jugadores[1] = new Player(2);
+
+
 	rapidxml::xml_document<> doc;
 	std::ifstream file("../../res/files/config.xml");
 
@@ -35,8 +40,10 @@ Level::Level(const int &nLevel)
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
 		
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
+		jugadores[0]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
+		jugadores[1]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
@@ -97,9 +104,11 @@ Level::Level(const int &nLevel)
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
 
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
+		jugadores[0]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
+		jugadores[1]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
 		soluciones = soluciones->next_sibling();
 
@@ -161,26 +170,26 @@ Level::Level(const int &nLevel)
 	miMap.inicializarRectOcupado();
 
 
-	// Cargamos todos los sprites de los jugadores
+	//// Cargamos todos los sprites de los jugadores
 
-	Renderer::Instance()->LoadTexture("SpriteJugador1", "../../res/img/player.png"); // Sprites jugador 1.
-	Renderer::Instance()->LoadTexture("SpriteJugador2", "../../res/img/player2.png"); // Sprites jugador 2.
+	//Renderer::Instance()->LoadTexture("SpriteJugador1", "../../res/img/player.png"); // Sprites jugador 1.
+	//Renderer::Instance()->LoadTexture("SpriteJugador2", "../../res/img/player2.png"); // Sprites jugador 2.
 
-	// Creamos y guardamos los rectangulos.
-	
-	SDL_Rect rectJugador1 = { 0, 0, TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	jugadores[0].setRectangulo(rectJugador1);
-	SDL_Rect rectSpriteJugador1 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
-	jugadores[0].setRectanguloSprite(rectSpriteJugador1);
+	//// Creamos y guardamos los rectangulos.
+	//
+	//SDL_Rect rectJugador1 = { 0, 0, TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
+	//jugadores[0].setRectangulo(rectJugador1);
+	//SDL_Rect rectSpriteJugador1 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
+	//jugadores[0].setRectanguloSprite(rectSpriteJugador1);
 
-	SDL_Rect rectJugador2 = { 0,0,TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	jugadores[1].setRectangulo(rectJugador2);
-	SDL_Rect rectSpriteJugador2 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
-	jugadores[0].setRectanguloSprite(rectSpriteJugador2);
+	//SDL_Rect rectJugador2 = { 0,0,TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
+	//jugadores[1].setRectangulo(rectJugador2);
+	//SDL_Rect rectSpriteJugador2 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
+	//jugadores[0].setRectanguloSprite(rectSpriteJugador2);
 
 
-	RectJugadores[0] = jugadores[0].getRectangulo();
-	RectJugadores[1] = jugadores[1].getRectangulo();
+	//RectJugadores[0] = jugadores[0].getRectangulo();
+	//RectJugadores[1] = jugadores[1].getRectangulo();
 }
 
 
@@ -202,32 +211,32 @@ void Level::handleEvents()
 				{
 					for(int i = 0; i<JUGADORES_TOTALES; i++)
 					{
-						if (jugadores[i].getDireccion() == Direcciones::NONE)
-							jugadores[i].setDireccion(Direcciones::UP);
+						if (jugadores[i]->getDireccion() == Direcciones::NONE)
+							jugadores[i]->setDireccion(Direcciones::UP);
 					}
 				}
 				else if (event.key.keysym.sym == SDLK_a)
 				{
 					for (int i = 0; i<JUGADORES_TOTALES; i++)
 					{
-						if (jugadores[i].getDireccion() == Direcciones::NONE)
-							jugadores[i].setDireccion(Direcciones::LEFT);
+						if (jugadores[i]->getDireccion() == Direcciones::NONE)
+							jugadores[i]->setDireccion(Direcciones::LEFT);
 					}
 				}
 				else if (event.key.keysym.sym == SDLK_s)
 				{
 					for (int i = 0; i<JUGADORES_TOTALES; i++)
 					{
-						if (jugadores[i].getDireccion() == Direcciones::NONE)
-							jugadores[i].setDireccion(Direcciones::DOWN);
+						if (jugadores[i]->getDireccion() == Direcciones::NONE)
+							jugadores[i]->setDireccion(Direcciones::DOWN);
 					}
 				}
 				else if (event.key.keysym.sym == SDLK_d)
 				{
 					for (int i = 0; i<JUGADORES_TOTALES; i++)
 					{
-						if (jugadores[i].getDireccion() == Direcciones::NONE)
-							jugadores[i].setDireccion(Direcciones::RIGHT);
+						if (jugadores[i]->getDireccion() == Direcciones::NONE)
+							jugadores[i]->setDireccion(Direcciones::RIGHT);
 					}
 				}			
 			}		
@@ -261,6 +270,10 @@ void Level::draw()
 
 	miHUD.draw();
 
+	for (int i = 0; i < JUGADORES_TOTALES; i++)
+	{
+		jugadores[i]->draw();
+	}
 
 	Renderer::Instance()->Render(); // Fem el render al final del draw.
 }

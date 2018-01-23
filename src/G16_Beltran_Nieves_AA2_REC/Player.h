@@ -1,6 +1,5 @@
 #include "Renderer.h"
 #include "Constants.h"
-
 #pragma once
 
 
@@ -20,17 +19,35 @@ private:
 
 	// Posición del jugador
 	int posicionX, posicionY;
+	float posicionRealX, posicionRealY;
 
 	// Rectangulo del sprite jugador.
 	SDL_Rect RectanguloSprite;
 
-	//Rectangulo del jugador
-	SDL_Rect Rectangulo;
+	//Rectangulo para cada dirección del Sprite
+	SDL_Rect spriteUPidle;
+	SDL_Rect spriteDOWNidle;
+	SDL_Rect spriteLEFTidle;
+	SDL_Rect spriteRIGHTidle;
 
-	Direcciones direccion;
+	SDL_Rect spriteUPwalk1;
+	SDL_Rect spriteUPwalk2;
+
+	SDL_Rect spriteDOWNwalk1;
+	SDL_Rect spriteDOWNwalk2;
+
+	SDL_Rect spriteLEFTwalk1;
+	SDL_Rect spriteLEFTwalk2;
+
+	SDL_Rect spriteRIGHTwalk1;
+	SDL_Rect spriteRIGHTwalk2;
+
 
 	//Determinar si se mueve
 	bool moviendose;
+
+	Direcciones direccion;
+
 
 public:
 
@@ -41,6 +58,10 @@ public:
 
 	void setDireccion(Direcciones direccion);
 	Direcciones getDireccion();
+
+	void setPosicion(int x, int y);
+	int getPosicionX();
+	int getPosicionY();
 	
 	void setMoviendose( bool mov);
 	bool getMoviendose();
@@ -49,7 +70,7 @@ public:
 	void draw();
 	
 	// Constructor de player.
-	Player();
+	Player(const int &num);
 
 	// Destructor de player.
 	~Player();
