@@ -6,6 +6,11 @@ Player::Player(const int &num)
 {
 	numJugador = num;
 
+	posicionRealX = posicionX;
+	posicionRealY = posicionY;
+
+	direccion = Direcciones::NONE;
+
 	if (numJugador == 1)
 		Renderer::Instance()->LoadTexture("Jugador1", "../../res/img/player.png");
 	else if(numJugador == 2)
@@ -82,6 +87,16 @@ bool Player::getMoviendose()
 	return false;
 }
 
+void Player::setPosicionRealX()
+{
+	posicionRealX = posicionX;
+}
+
+void Player::setPosicionRealY()
+{
+	posicionRealY = posicionY;
+}
+
 
 void Player::setRectanguloSprite(SDL_Rect rect) 
 {
@@ -115,27 +130,30 @@ void Player::draw()
 
 void Player::update()
 {
-	if (posicionX != posicionRealX)
+	if (posicionX != posicionRealX || posicionY != posicionRealY)
 	{
 		if (direccion == UP)
 		{
-			posicionRealY++;
+			posicionRealY = posicionRealY + 1/10;
 		}
-		if (direccion == DOWN)
+		else if (direccion == DOWN)
 		{
-			posicionRealY--;
+			posicionRealY = posicionRealY- 1 / 10;
 		}
-		if (direccion == RIGHT)
+		else if (direccion == RIGHT)
 		{
-			posicionRealX++;
+			posicionRealX = posicionRealX + 1 / 10;
 		}
-		if (direccion == LEFT)
+		else if (direccion == LEFT)
 		{
-			posicionRealX--;
+			posicionRealX = posicionRealX- 1 / 10;
+		}
+		else if (direccion == NONE) 
+		{
 		}
 		else
 		{
-			std::cout << "error lokisimo";
+			std::cout << "ERROR EN LA DIRECCION";
 		}
 	}
 	else

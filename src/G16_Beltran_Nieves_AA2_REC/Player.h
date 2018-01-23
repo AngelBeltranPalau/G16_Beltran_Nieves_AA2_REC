@@ -69,6 +69,9 @@ public:
 	void setMoviendose( bool mov);
 	bool getMoviendose();
 
+	void setPosicionRealX();
+	void setPosicionRealY();
+
 
 	void update ();
 	void draw();

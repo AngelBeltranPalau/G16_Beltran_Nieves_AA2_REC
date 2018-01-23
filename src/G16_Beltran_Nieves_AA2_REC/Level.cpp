@@ -9,9 +9,9 @@ Level::Level(const int &nLevel)
 
 	miMap.inicializarRectOcupado();
 
-
 	jugadores[0] = new Player(1);
 	jugadores[1] = new Player(2);
+
 
 
 	rapidxml::xml_document<> doc;
@@ -139,14 +139,6 @@ Level::Level(const int &nLevel)
 		// Accedim al node time i n'agafem la informació.
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
-		//// Accedim al node playerHealth i n'agafem la informació.
-		//for (int i = 0; i<JUGADORES_TOTALES; i++)
-		//{
-		//	players[i].setHealth(atoi(pLevel->first_attribute("lives")->value()));
-		//}
-		//// Accedim al node time i n'agafem la informació.
-		//timeDown = atoi(pLevel->first_attribute("time")->value());
-
 		// Ara guardarem la informació sobre les diferents caselles.
 		rapidxml::xml_node<> *muros = pLevel->first_node("Walls")->first_node("Wall"); // Apunta al primer node casella Destructible.
 
@@ -167,29 +159,16 @@ Level::Level(const int &nLevel)
 		}
 	}
 
+	jugadores[0]->setPosicionRealX();
+	jugadores[0]->setPosicionRealY();
+	
+	jugadores[1]->setPosicionRealX();
+	jugadores[1]->setPosicionRealY();
+
+
 	miMap.inicializarRectOcupado();
 
 
-	//// Cargamos todos los sprites de los jugadores
-
-	//Renderer::Instance()->LoadTexture("SpriteJugador1", "../../res/img/player.png"); // Sprites jugador 1.
-	//Renderer::Instance()->LoadTexture("SpriteJugador2", "../../res/img/player2.png"); // Sprites jugador 2.
-
-	//// Creamos y guardamos los rectangulos.
-	//
-	//SDL_Rect rectJugador1 = { 0, 0, TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	//jugadores[0].setRectangulo(rectJugador1);
-	//SDL_Rect rectSpriteJugador1 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
-	//jugadores[0].setRectanguloSprite(rectSpriteJugador1);
-
-	//SDL_Rect rectJugador2 = { 0,0,TAMAÑO_SPRITE * 3/2, TAMAÑO_SPRITE * 3/2 };
-	//jugadores[1].setRectangulo(rectJugador2);
-	//SDL_Rect rectSpriteJugador2 = { 0,0,TAMAÑO_SPRITE,TAMAÑO_SPRITE };
-	//jugadores[0].setRectanguloSprite(rectSpriteJugador2);
-
-
-	//RectJugadores[0] = jugadores[0].getRectangulo();
-	//RectJugadores[1] = jugadores[1].getRectangulo();
 }
 
 
@@ -199,13 +178,17 @@ Level::~Level()
 
 void Level::setDestino(Direcciones dir)
 {
+	int x = 0;
 	if(dir == UP)
 	{
-		for(int i; i<JUGADORES_TOTALES; i++)
+		for(int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			while ( Map::devolverContenidoPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY + 1) != 'Muro')
+			int auxX = jugadores[i]->getPosicionX();
+			int auxY = jugadores[i]->getPosicionY();
+			auxY++;
+			while ( miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
-				jugadores[i]->setPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY + 1);				
+				jugadores[i]->setPosicion(auxX, auxY);				
 			}
 		}
 		
@@ -213,11 +196,14 @@ void Level::setDestino(Direcciones dir)
 
 	if (dir == DOWN)
 	{
-		for (int i; i<JUGADORES_TOTALES; i++)
+		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY - 1) != 'Muro')
+			int auxX = jugadores[i]->getPosicionX();
+			int auxY = jugadores[i]->getPosicionY();
+			auxY--;
+			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
-				jugadores[i]->setPosicion(jugadores[i]->getPosicionX, jugadores[i]->getPosicionY - 1);
+				jugadores[i]->setPosicion(auxX, auxY);
 			}
 		}
 
@@ -225,11 +211,16 @@ void Level::setDestino(Direcciones dir)
 
 	if (dir == RIGHT)
 	{
-		for (int i; i<JUGADORES_TOTALES; i++)
+		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			while (miMap.devolverContenidoPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY) != "Muro")
+			int auxX = jugadores[i]->getPosicionX();
+			int auxY = jugadores[i]->getPosicionY();
+			auxX = auxX + 2;
+			auxY++;
+			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
-				jugadores[i]->setPosicion(jugadores[i]->getPosicionX + 1, jugadores[i]->getPosicionY);
+				jugadores[i]->setPosicion(auxX, auxY);
+				auxX++;
 			}
 		}
 
@@ -237,20 +228,25 @@ void Level::setDestino(Direcciones dir)
 
 	if (dir == LEFT)
 	{
-		for (int i; i<JUGADORES_TOTALES; i++)
+		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			while (Map::devolverContenidoPosicion(jugadores[i]->getPosicionX - 1, jugadores[i]->getPosicionY) != 'Muro')
+			int auxX = jugadores[i]->getPosicionX();
+			int auxY = jugadores[i]->getPosicionY();
+			auxX--;
+			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
 			{
-				jugadores[i]->setPosicion(jugadores[i]->getPosicionX - 1, jugadores[i]->getPosicionY);
+				jugadores[i]->setPosicion(auxX, auxY);
 			}
 		}
 
 	}
 }
 
+
 // Función encargada de controlar los eventos
 void Level::handleEvents() 
 {
+
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -263,7 +259,10 @@ void Level::handleEvents()
 					for(int i = 0; i<JUGADORES_TOTALES; i++)
 					{
 						if (jugadores[i]->getDireccion() == Direcciones::NONE)
+						{
+							std::cout << "HOLA";
 							jugadores[i]->setDireccion(Direcciones::UP);
+						}
 					}
 				}
 				else if (event.key.keysym.sym == SDLK_a)
@@ -306,6 +305,19 @@ void Level::update()
 
 	miHUD.update(time, movimientos);
 
+	
+	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
+	{
+		setDestino(jugadores[0]->getDireccion());
+	}
+
+	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
+	{
+		for (int i = 0; i < JUGADORES_TOTALES; i++)
+		{
+			jugadores[i]->update();
+		}
+	}
 };
 
 
