@@ -189,7 +189,51 @@ Level::~Level()
 }
 
 // Función encargada de controlar los eventos
-void Level::handleEvents() {};
+void Level::handleEvents() 
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case(SDL_KEYDOWN):
+			{
+				if (event.key.keysym.sym == SDLK_w)
+				{
+					for(int i = 0; i<JUGADORES_TOTALES; i++)
+					{
+						if (jugadores[i].getDireccion() == Direcciones::NONE)
+							jugadores[i].setDireccion(Direcciones::UP);
+					}
+				}
+				else if (event.key.keysym.sym == SDLK_a)
+				{
+					for (int i = 0; i<JUGADORES_TOTALES; i++)
+					{
+						if (jugadores[i].getDireccion() == Direcciones::NONE)
+							jugadores[i].setDireccion(Direcciones::LEFT);
+					}
+				}
+				else if (event.key.keysym.sym == SDLK_s)
+				{
+					for (int i = 0; i<JUGADORES_TOTALES; i++)
+					{
+						if (jugadores[i].getDireccion() == Direcciones::NONE)
+							jugadores[i].setDireccion(Direcciones::DOWN);
+					}
+				}
+				else if (event.key.keysym.sym == SDLK_d)
+				{
+					for (int i = 0; i<JUGADORES_TOTALES; i++)
+					{
+						if (jugadores[i].getDireccion() == Direcciones::NONE)
+							jugadores[i].setDireccion(Direcciones::RIGHT);
+					}
+				}			
+			}		
+		}	
+	}
+};
 
 // Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 void Level::update() 

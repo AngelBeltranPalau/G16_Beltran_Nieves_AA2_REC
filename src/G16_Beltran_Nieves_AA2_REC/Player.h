@@ -2,12 +2,6 @@
 #include "Constants.h"
 
 #pragma once
-class Player
-{
-public:
-	Player();
-	~Player();
-};
 
 
 // Enum de moviment.
@@ -33,7 +27,10 @@ private:
 	//Rectangulo del jugador
 	SDL_Rect Rectangulo;
 
-	
+	Direcciones direccion;
+
+	//Determinar si se mueve
+	bool moviendose;
 
 public:
 
@@ -42,9 +39,15 @@ public:
 	void setRectangulo(SDL_Rect sprite);
 	SDL_Rect getRectangulo();
 
+	void setDireccion(Direcciones direccion);
+	Direcciones getDireccion();
+	
+	void setMoviendose( bool mov);
+	bool getMoviendose();
+
 	void update ();
 	void draw();
-	void handleEvents();
+	
 	// Constructor de player.
 	Player();
 

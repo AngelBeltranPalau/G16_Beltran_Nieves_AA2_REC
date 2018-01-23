@@ -21,8 +21,6 @@ class Level : public Scene
 {
 public:
 
-	// Array de players.
-	Player jugadores[JUGADORES_TOTALES];
 
 	// Array de rectangulos
 	SDL_Rect RectJugadores[JUGADORES_TOTALES];

@@ -28,6 +28,15 @@ SDL_Rect Player::getRectangulo()
 	return Rectangulo;
 }
 
+void Player::setDireccion(Direcciones dir)
+{
+	direccion = dir;
+}
+Direcciones Player::getDireccion()
+{
+	return direccion;
+}
+
 
 void Player::setRectanguloSprite(SDL_Rect rect) 
 {
@@ -39,12 +48,7 @@ void Player::setRectangulo(SDL_Rect rect)
 	Rectangulo = rect;
 }
 
-void handleEvents() 
-{
-
-}
-
-void draw() 
+void Player::draw() 
 {
 
 }
