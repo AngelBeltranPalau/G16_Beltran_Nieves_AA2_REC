@@ -394,7 +394,7 @@ void Level::update()
 				fsalida.write(reinterpret_cast<char *>(&score), sizeof(score));
 				aux.pop();
 			}
-			estadoEscenaActual = estadoEscena::GOMENU;
+			estadoEscenaActual = estadoEscena::GORANK;
 		}
 	}
 
