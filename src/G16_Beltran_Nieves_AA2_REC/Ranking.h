@@ -34,7 +34,7 @@ private:
 	int xRaton, yRaton;
 
 	// Booleano para controlar si el ratón está o no clicado
-	bool mouseClicked;
+	bool ratonClicado;
 
 	// Booleano que comprueban si el ratón está sobre el botón de volver al MENU
 	bool ratonSobreBoton;

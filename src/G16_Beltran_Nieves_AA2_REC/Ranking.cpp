@@ -69,12 +69,12 @@ void Ranking::handleEvents()
 		}
 		case SDL_MOUSEBUTTONDOWN: // Si el ratón es clicado, se pone en true la variable ratonClicado
 		{
-			mouseClicked = true;
+			ratonClicado = true;
 			break;
 		}
 		case SDL_MOUSEBUTTONUP: // Si el ratón es des-clicado, se pone en false la variable ratonClicado
 		{
-			mouseClicked = false;
+			ratonClicado = false;
 			break;
 		}
 		default:;
@@ -95,7 +95,7 @@ void Ranking::handleEvents()
 void Ranking::update()
 {
 	// Ir al MENU si se pulsa el botón
-	if (mouseClicked && menuButton.ratonSobreBoton(xRaton, yRaton))
+	if (ratonClicado && menuButton.ratonSobreBoton(xRaton, yRaton))
 	{
 		estadoEscenaActual = estadoEscena::GOMENU;
 	}
