@@ -9,7 +9,7 @@ class Map
 public:
 	Map();
 	~Map();
-	
+
 	// Función que devuelve las posiciones ocupadas
 	std::vector<SDL_Rect> devolverRectOcupado();
 
@@ -22,6 +22,15 @@ public:
 	void añadirPosicionOcupada(const SDL_Rect &r);
 
 	void añadirItem(const std::string &i, const int &k1, const int &k2);
+
+	void setGanadorRojo(int x, int y);
+	void setGanadorVerde(int x, int y);
+
+	int getGanadorRojoX();
+	int getGanadorRojoY();
+	int getGanadorVerdeX();
+	int getGanadorVerdeY();
+
 
 
 	void update();
@@ -63,6 +72,12 @@ private:
 	// Vectores que determinan las posiciones x e y de las posiciones ocupadas
 	std::vector<int> rectOcupadoX;
 	std::vector<int> rectOcupadoY;
+
+	int ganadorRojoX;
+	int ganadorRojoY;
+
+	int ganadorVerdeX;
+	int ganadorVerdeY;
 
 };
 

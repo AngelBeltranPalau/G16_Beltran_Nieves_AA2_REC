@@ -9,7 +9,7 @@ Player::Player(const int &num)
 	posicionRealX = posicionX;
 	posicionRealY = posicionY;
 
-
+	moviendose = false;
 
 	direccion = Direcciones::NONE;
 
@@ -90,6 +90,16 @@ int Player::getPosicionRealY()
 	return posicionRealY;
 }
 
+void Player::setMoviendose()
+{
+	moviendose = true;
+}
+
+bool Player::getMoviendose()
+{
+	return moviendose;
+}
+
 void Player::setPosicionRealX()
 {
 	posicionRealX = posicionX + 1;
@@ -147,32 +157,31 @@ void Player::draw()
 
 void Player::update()
 {
-
-	float auxX = posicionX - (posicionRealX);
-	float auxY = (posicionY) - (posicionRealY);
+		float auxX = posicionX - (posicionRealX);
+		float auxY = (posicionY)-(posicionRealY);
 
 
 		if (direccion == Direcciones::UP)
 		{
-			if(auxY < -0.05)
-			posicionRealY -= 0.05;
+			if (auxY < -0.05)
+				posicionRealY -= 0.05;
 			else
 			{
 				direccion = Direcciones::NONE;
 				posicionRealY = posicionY;
-				reducirMovimiento();
+				moviendose = false;
 			}
 		}
 
 		if (direccion == Direcciones::DOWN)
 		{
 			if (auxY > 0.05)
-			posicionRealY += 0.05;
+				posicionRealY += 0.05;
 			else
 			{
 				direccion = Direcciones::NONE;
 				posicionRealY = posicionY;
-				reducirMovimiento();
+				moviendose = false;
 			}
 		}
 
@@ -180,24 +189,24 @@ void Player::update()
 		if (direccion == Direcciones::RIGHT)
 		{
 			if (auxX > 0.05)
-			posicionRealX  += 0.05;
+				posicionRealX += 0.05;
 			else
 			{
 				direccion = Direcciones::NONE;
 				posicionRealX = posicionX;
-				reducirMovimiento();
+				moviendose = false;
 			}
 		}
 
 		if (direccion == Direcciones::LEFT)
 		{
 			if (auxX < -0.05)
-			posicionRealX -= 0.05;
+				posicionRealX -= 0.05;
 			else
 			{
 				direccion = Direcciones::NONE;
 				posicionRealX = posicionX;
-				reducirMovimiento();
+				moviendose = false;
 			}
 		}
 

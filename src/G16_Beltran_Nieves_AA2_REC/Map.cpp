@@ -64,6 +64,38 @@ void Map::añadirItem(const std::string & i, const int & k1, const int & k2)
 	tablaPosiciones[{k1, k2}] = i;
 }
 
+void Map::setGanadorRojo(int x, int y)
+{
+	ganadorRojoX = x;
+	ganadorRojoY = y;
+}
+
+void Map::setGanadorVerde(int x, int y)
+{
+	ganadorVerdeX = x;
+	ganadorVerdeY = y;
+}
+
+int Map::getGanadorRojoX()
+{
+	return ganadorRojoX;
+}
+
+int Map::getGanadorRojoY()
+{
+	return ganadorRojoY;
+}
+
+int Map::getGanadorVerdeX()
+{
+	return ganadorVerdeX;
+}
+
+int Map::getGanadorVerdeY()
+{
+	return ganadorVerdeY;
+}
+
 
 void Map::update()
 {

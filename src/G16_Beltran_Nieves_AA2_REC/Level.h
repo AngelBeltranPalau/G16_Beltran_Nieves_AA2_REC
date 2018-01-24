@@ -55,6 +55,8 @@ private:
 	// Vector que guarda los movimientos de los jugadores
 	std::vector<int>movimientos;
 
+	void colisionesJugadores(Direcciones dir);
+
 };
 
 

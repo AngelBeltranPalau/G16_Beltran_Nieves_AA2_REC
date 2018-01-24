@@ -69,7 +69,7 @@ public:
 	int getPosicionRealX();
 	int getPosicionRealY();
 	
-	void setMoviendose( bool mov);
+	void setMoviendose();
 	bool getMoviendose();
 
 	void setPosicionRealX();

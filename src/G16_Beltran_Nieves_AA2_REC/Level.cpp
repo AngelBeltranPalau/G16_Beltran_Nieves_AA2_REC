@@ -42,10 +42,12 @@ Level::Level(const int &nLevel)
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		jugadores[0]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		miMap.setGanadorVerde(atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1);
 		soluciones = soluciones->next_sibling();
 		jugadores[1]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		miMap.setGanadorRojo(atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1);
 		soluciones = soluciones->next_sibling();
 			
 		
@@ -106,10 +108,12 @@ Level::Level(const int &nLevel)
 		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		jugadores[0]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
 		miMap.añadirItem("SOLUCION_VERDE", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		miMap.setGanadorVerde(atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1);
 		soluciones = soluciones->next_sibling();
-		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		jugadores[1]->setPosicion(atoi(soluciones->first_attribute("posj")->value()), atoi(soluciones->first_attribute("posi")->value()));
+		movimientos.push_back(atoi(soluciones->first_attribute("mov")->value()));
 		miMap.añadirItem("SOLUCION_ROJO", atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1); // Ara guardem a myMap el valor de la casella actual.
+		miMap.setGanadorRojo(atoi(soluciones->first_attribute("objj")->value()) + 1, atoi(soluciones->first_attribute("obji")->value()) + 1);
 		soluciones = soluciones->next_sibling();
 
 
@@ -251,15 +255,24 @@ void Level::setDestino(Direcciones dir)
 		}
 
 	}
+	
 
-	//if (jugadores[0]->getPosicionX() != jugadores[0]->getPosicionRealX() || jugadores[0]->getPosicionY() != jugadores[0]->getPosicionRealY())
-	//{
-	//	jugadores[0]->reducirMovimiento();
-	//}
-	//if (jugadores[1]->getPosicionX() != jugadores[1]->getPosicionRealX() || jugadores[1]->getPosicionY() != jugadores[1]->getPosicionRealY())
-	//{
-	//	jugadores[1]->reducirMovimiento();
-	//}
+	if (jugadores[0]->getPosicionY() == jugadores[1]->getPosicionY() && jugadores[0]->getPosicionX() == jugadores[1]->getPosicionX())
+	{
+		colisionesJugadores(dir);
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (jugadores[i]->getMoviendose() == false)
+		{
+			if (jugadores[i]->getPosicionY() != jugadores[i]->getPosicionRealY() || jugadores[i]->getPosicionX() != jugadores[i]->getPosicionRealX())
+			{
+				jugadores[i]->setMoviendose();
+				jugadores[i]->reducirMovimiento();
+			}
+		}
+	}
 
 }
 
@@ -309,7 +322,11 @@ void Level::handleEvents()
 						if (jugadores[i]->getDireccion() == Direcciones::NONE)
 							jugadores[i]->setDireccion(Direcciones::RIGHT);
 					}
-				}			
+				}
+				else if (event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					estadoEscenaActual = estadoEscena::GOMENU;
+				}
 			}		
 		}	
 	}
@@ -324,6 +341,13 @@ void Level::update()
 	timeDown -= deltaTime;
 	int time = (int)timeDown;
 
+	if (time == 0)
+	{
+		estadoEscenaActual = estadoEscena::GOMENU;
+	}
+
+
+
 	movimientos[0] = jugadores[0]->getMovimientos();
 	movimientos[1] = jugadores[1]->getMovimientos();
 
@@ -332,20 +356,34 @@ void Level::update()
 
 	if(jugadores[0]->getPosicionX() == jugadores[0]->getPosicionRealX() || jugadores[0]->getPosicionY() == jugadores[0]->getPosicionRealY() || jugadores[1]->getPosicionX() == jugadores[1]->getPosicionRealX() || jugadores[1]->getPosicionY() == jugadores[1]->getPosicionRealY())
 	{ 
-		if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
+		if ((jugadores[0]->getDireccion() != Direcciones::NONE && jugadores[1]->getDireccion() != Direcciones::NONE) && (jugadores[0]->getDireccion() == jugadores[1]->getDireccion()))
 		{
 			setDestino(jugadores[0]->getDireccion());
 		}
 	}
 
+
+
 	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
 	{
-		for (int i = 0; i < JUGADORES_TOTALES; i++)
+		for (int i = 0; i < 2; i++)
 		{
-			jugadores[i]->update();
+				jugadores[i]->update();
 		}
 	}
+
+	if (jugadores[0]->getPosicionX() == miMap.getGanadorVerdeX() && jugadores[0]->getPosicionY() == miMap.getGanadorVerdeY() && jugadores[1]->getPosicionX() == miMap.getGanadorRojoX() && jugadores[1]->getPosicionY() == miMap.getGanadorRojoY())
+	{
+		estadoEscenaActual = estadoEscena::GOMENU;
+	}
+
+	if (jugadores[0]->getMovimientos() == 0 && (jugadores[0]->getPosicionX() != miMap.getGanadorVerdeX()) || jugadores[1]->getMovimientos() == 0 && (jugadores[1]->getPosicionX() != miMap.getGanadorRojoX()))
+	{
+		estadoEscenaActual = estadoEscena::GOMENU;
+	}
+
 };
+
 
 
 // Función encargada de dibujar la escena
@@ -366,4 +404,63 @@ void Level::draw()
 	}
 
 	Renderer::Instance()->Render(); // Fem el render al final del draw.
+}
+
+void Level::colisionesJugadores(Direcciones dir)
+{
+	if (dir == Direcciones::UP)
+	{
+		if (jugadores[0]->getPosicionRealY() < jugadores[1]->getPosicionRealY())
+		{
+			int aux = jugadores[1]->getPosicionY() + 1;
+			jugadores[1]->setPosicion(jugadores[1]->getPosicionX(), aux);
+		}
+		else if (jugadores[0]->getPosicionRealY() > jugadores[1]->getPosicionRealY())
+		{
+			int aux = jugadores[0]->getPosicionY() + 1;
+			jugadores[0]->setPosicion(jugadores[0]->getPosicionX(), aux);
+		}
+	}
+	else if (dir == Direcciones::DOWN)
+	{
+		if (jugadores[0]->getPosicionRealY() > jugadores[1]->getPosicionRealY())
+		{
+			int aux = jugadores[1]->getPosicionY() - 1;
+			jugadores[1]->setPosicion(jugadores[1]->getPosicionX(), aux);
+		}
+		else if (jugadores[0]->getPosicionRealY() < jugadores[1]->getPosicionRealY())
+		{
+			int aux = jugadores[0]->getPosicionY() - 1;
+			jugadores[0]->setPosicion(jugadores[0]->getPosicionX(), aux);
+		}
+	}
+
+	else if (dir == Direcciones::RIGHT)
+	{
+		if (jugadores[0]->getPosicionRealX() < jugadores[1]->getPosicionRealX())
+		{
+			int aux = jugadores[0]->getPosicionX() - 1;
+			jugadores[0]->setPosicion(aux, jugadores[0]->getPosicionY());
+		}
+		else if (jugadores[0]->getPosicionRealX() > jugadores[1]->getPosicionRealX())
+		{
+			int aux = jugadores[1]->getPosicionX() - 1;
+			jugadores[1]->setPosicion(aux, jugadores[1]->getPosicionY());
+		}
+	}
+
+	else if (dir == Direcciones::LEFT)
+	{
+		if (jugadores[0]->getPosicionRealX() > jugadores[1]->getPosicionRealX())
+		{
+			int aux = jugadores[0]->getPosicionX() + 1;
+			jugadores[0]->setPosicion(aux, jugadores[0]->getPosicionY());
+		}
+		else if (jugadores[0]->getPosicionRealX() < jugadores[1]->getPosicionRealX())
+		{
+			int aux = jugadores[1]->getPosicionX() + 1;
+			jugadores[1]->setPosicion(aux, jugadores[1]->getPosicionY());
+		}
+	}
+
 }
