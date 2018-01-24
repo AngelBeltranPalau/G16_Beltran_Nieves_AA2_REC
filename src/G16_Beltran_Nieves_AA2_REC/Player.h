@@ -96,7 +96,7 @@ public:
 	void reducirMovimiento();
 
 	// Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
-	void update ();
+	void update();
 
 	// Función encargada de dibujar la escena
 	void draw();

@@ -3,16 +3,6 @@
 #include "Constants.h"
 class HUD
 {
-public:
-	HUD();
-	~HUD();
-
-	// Función encargada de dibujar la escena
-	void draw();
-
-	//Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
-	void update(int &t, std::vector<int> &movimientos);
-
 private:
 
 	// Rectángulo del HUD
@@ -29,6 +19,17 @@ private:
 
 	// Movimientos HUD
 	std::vector<int> movimientosHud;
+
+public:
+
+	HUD();
+	~HUD();
+
+	//Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
+	void update(int &t, std::vector<int> &movimientos);
+
+	// Función encargada de dibujar la escena
+	void draw();
 
 };
 
