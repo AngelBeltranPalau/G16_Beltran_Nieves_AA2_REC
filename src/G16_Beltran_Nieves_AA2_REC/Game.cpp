@@ -6,6 +6,7 @@ Game::Game()
 	//Al iniciar el juego lo hacemos en la escena MENU
 	estadoActual = estadoJuego::MENU;
 	escenaActual = new Menu;
+	escenaActual->iniciarTopPlayer();
 
 	while (escenaActual->getEstadoEscena() != estadoEscena::EXIT)
 	{

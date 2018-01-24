@@ -196,13 +196,16 @@ void Level::setDestino(Direcciones dir)
 	{
 		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			int auxX = jugadores[i]->getPosicionX();
-			int auxY = jugadores[i]->getPosicionY();
-			auxY--;
-			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+			if (jugadores[i]->getMovimientos() > 0)
 			{
-				jugadores[i]->setPosicion(auxX, auxY);
+				int auxX = jugadores[i]->getPosicionX();
+				int auxY = jugadores[i]->getPosicionY();
 				auxY--;
+				while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+				{
+					jugadores[i]->setPosicion(auxX, auxY);
+					auxY--;
+				}
 			}
 		}
 	}
@@ -211,13 +214,16 @@ void Level::setDestino(Direcciones dir)
 	{
 		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			int auxX = jugadores[i]->getPosicionX();
-			int auxY = jugadores[i]->getPosicionY();
-			auxY++;
-			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+			if (jugadores[i]->getMovimientos() > 0)
 			{
-				jugadores[i]->setPosicion(auxX, auxY);
+				int auxX = jugadores[i]->getPosicionX();
+				int auxY = jugadores[i]->getPosicionY();
 				auxY++;
+				while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+				{
+					jugadores[i]->setPosicion(auxX, auxY);
+					auxY++;
+				}
 			}
 		}
 		
@@ -227,14 +233,17 @@ void Level::setDestino(Direcciones dir)
 	{
 		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			int auxX = jugadores[i]->getPosicionX();
-			int auxY = jugadores[i]->getPosicionY();
-			auxX++;
-			auxY;
-			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+			if (jugadores[i]->getMovimientos() > 0)
 			{
-				jugadores[i]->setPosicion(auxX, auxY);
+				int auxX = jugadores[i]->getPosicionX();
+				int auxY = jugadores[i]->getPosicionY();
 				auxX++;
+				auxY;
+				while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+				{
+					jugadores[i]->setPosicion(auxX, auxY);
+					auxX++;
+				}
 			}
 		}
 
@@ -244,13 +253,16 @@ void Level::setDestino(Direcciones dir)
 	{
 		for (int i = 0; i<JUGADORES_TOTALES; i++)
 		{
-			int auxX = jugadores[i]->getPosicionX();
-			int auxY = jugadores[i]->getPosicionY();
-			auxX--;
-			while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+			if (jugadores[i]->getMovimientos() > 0)
 			{
-				jugadores[i]->setPosicion(auxX, auxY);
+				int auxX = jugadores[i]->getPosicionX();
+				int auxY = jugadores[i]->getPosicionY();
 				auxX--;
+				while (miMap.devolverContenidoPosicion(auxX, auxY) != "MURO")
+				{
+					jugadores[i]->setPosicion(auxX, auxY);
+					auxX--;
+				}
 			}
 		}
 
@@ -294,7 +306,6 @@ void Level::handleEvents()
 					{
 						if (jugadores[i]->getDireccion() == Direcciones::NONE)
 						{
-							std::cout << "HOLA";
 							jugadores[i]->setDireccion(Direcciones::UP);
 						}
 					}
@@ -335,17 +346,57 @@ void Level::handleEvents()
 // Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 void Level::update() 
 {
-	deltaTime = (clock() - lastTime);
-	lastTime = clock();
-	deltaTime /= CLOCKS_PER_SEC;
-	timeDown -= deltaTime;
-	int time = (int)timeDown;
-
-	if (time == 0)
+	if (jugando)
 	{
-		estadoEscenaActual = estadoEscena::GOMENU;
+		deltaTime = (clock() - lastTime);
+		lastTime = clock();
+		deltaTime /= CLOCKS_PER_SEC;
+		timeDown -= deltaTime;
+		time = (int)timeDown;
 	}
 
+	// Si se acaba el tiempo o alguno de los jugadores se ha quedado sin movimientos antes de haber llegado a la posición objetivo, el nivel termina y se vuelve al MENU
+	if (time == 0 || (jugadores[0]->getMovimientos() == 0 && ((jugadores[0]->getPosicionRealX() != miMap.getGanadorVerdeX()) || (jugadores[0]->getPosicionRealY() != miMap.getGanadorVerdeY())))
+		|| (jugadores[1]->getMovimientos() == 0 && ((jugadores[1]->getPosicionRealX() != miMap.getGanadorRojoX()) || jugadores[1]->getPosicionRealY() != miMap.getGanadorRojoY())))
+	{
+		if (jugadores[0]->getDireccion() == NONE && jugadores[1]->getDireccion() == NONE)
+		{
+			estadoEscenaActual = estadoEscena::GOMENU;
+		}
+	}
+
+	if (jugadores[0]->getPosicionRealX() == (float)miMap.getGanadorVerdeX() && jugadores[0]->getPosicionRealY() == (float)miMap.getGanadorVerdeY() && jugadores[1]->getPosicionRealX() == (float)miMap.getGanadorRojoX() && jugadores[1]->getPosicionRealY() == (float)miMap.getGanadorRojoY())
+	{
+		if (jugadores[0]->getDireccion() == NONE && jugadores[1]->getDireccion() == NONE)
+		{
+			jugando = false;
+			int score;
+			score = time;
+
+			std::cout << "¡Has superado el nivel! Introduce tu nombre: ";
+			std::string nombre;
+			std::cin >> nombre;
+
+			// Ahora metemos el score y el nombre del jugador en la queue de ganadores
+			topJugadores.push({ score,nombre });
+			std::priority_queue<jugadorRanking> aux = topJugadores;
+			std::ofstream fsalida("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
+
+			// Ara que ja tenim el nom del jugador guanyador, actualitzem el nostre fitxer binari.
+			for (int i = 0; i < 10 && aux.size() != 0; i++)
+			{
+				// Primer guardem el nom del jugador.
+				size_t len = aux.top().name.size();
+				fsalida.write(reinterpret_cast<char *>(&len), sizeof(size_t));
+				fsalida.write(aux.top().name.c_str(), aux.top().name.size());
+				// Després en guardem l'score.
+				int score = aux.top().score;
+				fsalida.write(reinterpret_cast<char *>(&score), sizeof(score));
+				aux.pop();
+			}
+			estadoEscenaActual = estadoEscena::GOMENU;
+		}
+	}
 
 
 	movimientos[0] = jugadores[0]->getMovimientos();
@@ -372,15 +423,6 @@ void Level::update()
 		}
 	}
 
-	if (jugadores[0]->getPosicionX() == miMap.getGanadorVerdeX() && jugadores[0]->getPosicionY() == miMap.getGanadorVerdeY() && jugadores[1]->getPosicionX() == miMap.getGanadorRojoX() && jugadores[1]->getPosicionY() == miMap.getGanadorRojoY())
-	{
-		estadoEscenaActual = estadoEscena::GOMENU;
-	}
-
-	if (jugadores[0]->getMovimientos() == 0 && (jugadores[0]->getPosicionX() != miMap.getGanadorVerdeX()) || jugadores[1]->getMovimientos() == 0 && (jugadores[1]->getPosicionX() != miMap.getGanadorRojoX()))
-	{
-		estadoEscenaActual = estadoEscena::GOMENU;
-	}
 
 };
 

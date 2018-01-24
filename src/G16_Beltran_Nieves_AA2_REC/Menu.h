@@ -29,6 +29,7 @@ private:
 	// Booleano que indica si el ratón está o no pulsado
 	bool ratonClicado;
 
+	// Booleano que comprueban si el ratón está sobre cada botón
 	bool ratonSobreBotonLevel1;
 	bool ratonSobreBotonLevel2;
 	bool ratonSobreBotonRanking;

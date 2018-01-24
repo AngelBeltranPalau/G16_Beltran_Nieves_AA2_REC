@@ -31,4 +31,5 @@ const int Y_MAPA = 7;
 const int HUD_WIDTH = 432;
 const int HUD_HEIGHT = 80;
 
+const int NUM_JUGADORES_TOP = 5;
 

@@ -49,6 +49,8 @@ private:
 	clock_t lastTime = clock();
 	float timeDown;
 	float deltaTime = 0;
+	int time;
+	bool jugando = true;
 
 	void setDestino(Direcciones dir);
 
