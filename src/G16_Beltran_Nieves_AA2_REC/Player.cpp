@@ -5,11 +5,13 @@
 Player::Player(const int &num)
 {
 	numJugador = num;
+	contadorSprite = 0;
+	cambioSprite = false;
 
 	posicionRealX = posicionX;
 	posicionRealY = posicionY;
 
-	moviendose = false;
+	moviendose = false; 
 
 	direccion = Direcciones::NONE;
 
@@ -36,12 +38,78 @@ Player::Player(const int &num)
 	spriteRIGHTwalk1 = { TAMAÑO_SPRITE , TAMAÑO_SPRITE * 3, TAMAÑO_SPRITE, TAMAÑO_SPRITE };
 	spriteRIGHTwalk2 = { TAMAÑO_SPRITE * 2, TAMAÑO_SPRITE * 3, TAMAÑO_SPRITE, TAMAÑO_SPRITE };
 
+	spriteImpreso = spriteDOWNidle;
 
 }
 
 
 Player::~Player()
 {
+
+}
+
+void Player::setSpriteImpreso(Direcciones dir)
+{
+
+	if (dir == Direcciones::DOWN)
+	{
+		spriteImpreso = spriteDOWNidle;
+	}
+	else if (dir == Direcciones::UP)
+	{
+		spriteImpreso = spriteUPidle;
+	}
+	else if (dir == Direcciones::LEFT)
+	{
+		spriteImpreso = spriteLEFTidle;
+	}
+	else if (dir == Direcciones::RIGHT)
+	{
+		spriteImpreso = spriteRIGHTidle;
+	}
+}
+
+void Player::setSpriteMovimiento(Direcciones dir)
+{
+	if (contadorSprite < VELOCIDAD_SPRITE)
+	{
+		contadorSprite++;
+	}
+	else
+	{
+		cambioSprite = !cambioSprite;
+		contadorSprite = 0;
+	}
+
+
+	if (dir == Direcciones::DOWN)
+	{
+		if(cambioSprite == false)
+			spriteImpreso = spriteDOWNwalk1;
+		else
+			spriteImpreso = spriteDOWNwalk2;
+	}
+	else if (dir == Direcciones::UP)
+	{
+		if (cambioSprite == false)
+			spriteImpreso = spriteUPwalk1;
+		else
+			spriteImpreso = spriteUPwalk2;
+	}
+	else if (dir == Direcciones::LEFT)
+	{
+		if (cambioSprite == false)
+			spriteImpreso = spriteLEFTwalk1;
+		else
+			spriteImpreso = spriteLEFTwalk2;
+	}
+	else if (dir == Direcciones::RIGHT)
+	{
+		if (cambioSprite == false)
+			spriteImpreso = spriteRIGHTwalk1;
+		else
+			spriteImpreso = spriteRIGHTwalk2;
+	}
 
 }
 
@@ -130,33 +198,6 @@ void Player::reducirMovimiento()
 }
 
 
-//Determina el rectandulo de sprite del jugador
-void Player::setRectanguloSprite(SDL_Rect rect) 
-{
-	RectanguloSprite = rect;
-}
-
-
-//Dibuja por pantalla el jugador
-void Player::draw() 
-{
-	if (numJugador == 1)
-	{
-		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
-		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
-
-		Renderer::Instance()->PushSprite("Jugador1", spriteLEFTidle, RectanguloSprite);
-	}
-	if (numJugador == 2)
-	{
-		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
-		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
-
-		Renderer::Instance()->PushSprite("Jugador2", spriteLEFTidle, RectanguloSprite);
-	}
-}
-
-
 //Actualiza las variables del jugador
 void Player::update()
 {
@@ -164,53 +205,88 @@ void Player::update()
 		float auxY = (posicionY)-(posicionRealY);
 
 
-		if (direccion == Direcciones::UP)
-		{
-			if (auxY < -0.05)
-				posicionRealY -= 0.05;
-			else
+			if (direccion == Direcciones::UP)
 			{
-				direccion = Direcciones::NONE;
-				posicionRealY = posicionY;
-				moviendose = false;
+				if (auxY < -0.05)
+				{
+					posicionRealY -= 0.05;
+					setSpriteMovimiento(Direcciones::UP);
+				}
+				else
+				{
+					direccion = Direcciones::NONE;
+					setSpriteImpreso(Direcciones::UP);
+					posicionRealY = posicionY;
+					moviendose = false;
+				}
 			}
-		}
 
-		if (direccion == Direcciones::DOWN)
-		{
-			if (auxY > 0.05)
-				posicionRealY += 0.05;
-			else
+			if (direccion == Direcciones::DOWN)
 			{
-				direccion = Direcciones::NONE;
-				posicionRealY = posicionY;
-				moviendose = false;
+				if (auxY > 0.05)
+				{
+					posicionRealY += 0.05;
+					setSpriteMovimiento(Direcciones::DOWN);
+				}
+				else
+				{
+					direccion = Direcciones::NONE;
+					setSpriteImpreso(Direcciones::DOWN);
+					posicionRealY = posicionY;
+					moviendose = false;
+				}
 			}
-		}
 
 
-		if (direccion == Direcciones::RIGHT)
-		{
-			if (auxX > 0.05)
-				posicionRealX += 0.05;
-			else
+			if (direccion == Direcciones::RIGHT)
 			{
-				direccion = Direcciones::NONE;
-				posicionRealX = posicionX;
-				moviendose = false;
+				if (auxX > 0.05)
+				{
+					posicionRealX += 0.05;
+					setSpriteMovimiento(Direcciones::RIGHT);
+				}
+				else
+				{
+					direccion = Direcciones::NONE;
+					setSpriteImpreso(Direcciones::RIGHT);
+					posicionRealX = posicionX;
+					moviendose = false;
+				}
 			}
-		}
 
-		if (direccion == Direcciones::LEFT)
-		{
-			if (auxX < -0.05)
-				posicionRealX -= 0.05;
-			else
+			if (direccion == Direcciones::LEFT)
 			{
-				direccion = Direcciones::NONE;
-				posicionRealX = posicionX;
-				moviendose = false;
+				if (auxX < -0.05)
+				{
+					posicionRealX -= 0.05;
+					setSpriteMovimiento(Direcciones::LEFT);
+				}
+				else
+				{
+					direccion = Direcciones::NONE;
+					setSpriteImpreso(Direcciones::LEFT);
+					posicionRealX = posicionX;
+					moviendose = false;
+				}
 			}
-		}
+}
 
+
+//Dibuja por pantalla el jugador
+void Player::draw()
+{
+	if (numJugador == 1)
+	{
+		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
+
+		Renderer::Instance()->PushSprite("Jugador1", spriteImpreso, RectanguloSprite);
+	}
+	if (numJugador == 2)
+	{
+		RectanguloSprite.x = 0 + (posicionRealX)*TAMAÑO_SPRITE * 3 / 2 + 12;
+		RectanguloSprite.y = 80 + (posicionRealY)*TAMAÑO_SPRITE * 3 / 2 + 12;
+
+		Renderer::Instance()->PushSprite("Jugador2", spriteImpreso, RectanguloSprite);
+	}
 }

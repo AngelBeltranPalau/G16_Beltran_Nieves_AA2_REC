@@ -46,6 +46,9 @@ private:
 	SDL_Rect spriteRIGHTwalk1;
 	SDL_Rect spriteRIGHTwalk2;
 
+	// Rectángulo que se iguala al Sprite que se imprime
+	SDL_Rect spriteImpreso;
+
 
 	//Determinar si se mueve
 	bool moviendose;
@@ -53,16 +56,18 @@ private:
 	//Dirección actual del jugador
 	Direcciones direccion;
 
-
+	// Contador de tiempo para los sprites y booleano de cambio de sprite
+	int contadorSprite;
+	bool cambioSprite;
 
 
 public:
 
-	//Crear y obtener los rectangulos del jugador y de su sprite
-	void setRectanguloSprite(SDL_Rect sprite);
-	SDL_Rect getRectanguloSprite();
-	void setRectangulo(SDL_Rect sprite);
-	SDL_Rect getRectangulo();
+	// Determinar el sprite que debe imprimirse al llegar a la posición objetivo
+	void setSpriteImpreso(Direcciones dir);
+
+	// Va actualizando el sprite del jugador conforme camina en función de la dirección
+	void setSpriteMovimiento(Direcciones dir);
 
 	//Determinar y obtener la dirección hacia la que se desplaza el jugador
 	void setDireccion(Direcciones direccion);

@@ -373,7 +373,7 @@ void Level::update()
 			int score;
 			score = time;
 
-			std::cout << "¡Has superado el nivel! Introduce tu nombre: ";
+			std::cout << "Has superado el nivel! Introduce tu nombre: ";
 			std::string nombre;
 			std::cin >> nombre;
 

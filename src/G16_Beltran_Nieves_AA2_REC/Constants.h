@@ -33,3 +33,4 @@ const int HUD_HEIGHT = 80;
 
 const int NUM_JUGADORES_TOP = 5;
 
+const int VELOCIDAD_SPRITE = 7;
