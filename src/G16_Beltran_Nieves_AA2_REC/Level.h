@@ -52,11 +52,13 @@ private:
 	int time;
 	bool jugando = true;
 
+	//Determina la posición hasta la que caminará el jugador al moverse en una dirección.
 	void setDestino(Direcciones dir);
 
 	// Vector que guarda los movimientos de los jugadores
 	std::vector<int>movimientos;
 
+	//Se encarga que los jugadores no se superpongan en caso de desplazarse sombre la misma filo o columna
 	void colisionesJugadores(Direcciones dir);
 
 };

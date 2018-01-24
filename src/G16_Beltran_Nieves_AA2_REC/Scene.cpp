@@ -11,10 +11,10 @@ Scene::~Scene()
 {
 }
 
-// Funció que retornarà l'estat actual de l'escena.
+//Función ques nos devuelve el estado en el que está la escena actualmente
 estadoEscena Scene::getEstadoEscena()
 {
-	return estadoEscenaActual; // Retornem l'estat de l'escena.
+	return estadoEscenaActual; 
 }
 
 std::priority_queue<jugadorRanking> Scene::topJugadores;

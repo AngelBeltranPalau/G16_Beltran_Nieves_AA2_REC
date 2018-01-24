@@ -23,18 +23,21 @@ public:
 
 	void añadirItem(const std::string &i, const int &k1, const int &k2);
 
+	//Funciones para determinar la posición de las posiciones de meta roja y verde respectivamente
 	void setGanadorRojo(int x, int y);
 	void setGanadorVerde(int x, int y);
 
+	//Funciones para obtener los valores X e Y de las posiciones de meta roja y verda respectivamente
 	int getGanadorRojoX();
 	int getGanadorRojoY();
 	int getGanadorVerdeX();
 	int getGanadorVerdeY();
 
 
-
+	//Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 	void update();
 
+	// Función encargada de dibujar la escena
 	void draw();
 
 private:
@@ -73,9 +76,11 @@ private:
 	std::vector<int> rectOcupadoX;
 	std::vector<int> rectOcupadoY;
 
+	//Coordenadas del cuadrado de meta rojo
 	int ganadorRojoX;
 	int ganadorRojoY;
 
+	//Coordenadas del cuadrado de meta verde
 	int ganadorVerdeX;
 	int ganadorVerdeY;
 

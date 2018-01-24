@@ -17,7 +17,7 @@ public:
 
 private:
 
-	//Esta variable nos servirá para sabber en que escena estamos actualmente
+	//Esta variable nos servirá para saber en que escena estamos actualmente
 	estadoJuego estadoActual;
 
 	//Este puntero apuntará a la instancia de la escena actual

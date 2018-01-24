@@ -1,19 +1,21 @@
 #include "Level.h"
 
 
-
+//Constructor del nivel
 Level::Level(const int &nLevel)
 {
 
+	//Estado actual
 	estadoEscenaActual = estadoEscena::RUNNING;
 
+	//Inicializa mapa
 	miMap.inicializarRectOcupado();
 
+	//Crea objetos jugador
 	jugadores[0] = new Player(1);
 	jugadores[1] = new Player(2);
-
-
-
+	
+	//Lee el XML para obtener la configuración inicial
 	rapidxml::xml_document<> doc;
 	std::ifstream file("../../res/files/config.xml");
 
@@ -25,16 +27,15 @@ Level::Level(const int &nLevel)
 	rapidxml::xml_node<> *pRaiz = doc.first_node();
 	rapidxml::xml_node<> *pLevel = pRaiz->first_node();
 
-
+	
 	if (nLevel == 1)
 	{
-		// Busquem fins que pLevel apunti al nivell 1.
+
 		while ((std::string)pLevel->first_attribute("id")->value() != "1")
 		{
 			pLevel = pLevel->next_sibling();
 		}
 
-		// Accedim al node time i n'agafem la informació.
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
@@ -51,10 +52,7 @@ Level::Level(const int &nLevel)
 		soluciones = soluciones->next_sibling();
 			
 		
-		//// Accedim al node time i n'agafem la informació.
-		//timeDown = atoi(pLevel->first_attribute("time")->value());
-
-		// Ara guardarem la informació sobre les diferents caselles.
+		
 		rapidxml::xml_node<> *muros = pLevel->first_node("Walls")->first_node("Wall"); // Apunta al primer node casella Destructible.
 
 		for (int i = 0; i < Y_MAPA; i++)
@@ -100,7 +98,7 @@ Level::Level(const int &nLevel)
 			pLevel = pLevel->next_sibling();
 		}
 
-		// Accedim al node time i n'agafem la informació.
+		
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
 		rapidxml::xml_node<> *soluciones = pLevel->first_node("characters")->first_node("character"); // Apunta al primer node casella Destructible.
@@ -134,16 +132,13 @@ Level::Level(const int &nLevel)
 		{
 			miMap.añadirItem("MURO", i, Y_MAPA - 1);
 		}
-		// Busquem fins que pLevel apunti al nivell 1.
 		while ((std::string)pLevel->first_attribute("id")->value() != "2")
 		{
 			pLevel = pLevel->next_sibling();
 		}
 
-		// Accedim al node time i n'agafem la informació.
 		timeDown = atoi(pLevel->first_attribute("time")->value());
 
-		// Ara guardarem la informació sobre les diferents caselles.
 		rapidxml::xml_node<> *muros = pLevel->first_node("Walls")->first_node("Wall"); // Apunta al primer node casella Destructible.
 
 		while (muros != nullptr)
@@ -184,13 +179,15 @@ Level::Level(const int &nLevel)
 
 }
 
-
+//Destructor Nivel
 Level::~Level()
 {
 }
 
+//Desplaza la posición objetivo del jugador en función de la dirección hasta que esta llegue al siguiente obstaculo
 void Level::setDestino(Direcciones dir)
 {
+	
 	int x = 0;
 	if(dir == UP)
 	{
@@ -268,12 +265,13 @@ void Level::setDestino(Direcciones dir)
 
 	}
 	
-
+	//Evita que choquen los jugadores
 	if (jugadores[0]->getPosicionY() == jugadores[1]->getPosicionY() && jugadores[0]->getPosicionX() == jugadores[1]->getPosicionX())
 	{
 		colisionesJugadores(dir);
 	}
 
+	//Reduce los movimientos si se desplaza
 	for (int i = 0; i < 2; i++)
 	{
 		if (jugadores[i]->getMoviendose() == false)
@@ -292,7 +290,7 @@ void Level::setDestino(Direcciones dir)
 // Función encargada de controlar los eventos
 void Level::handleEvents() 
 {
-
+	//Lee los imputs y según la tecla pulsada cambia la dirección del movimiento del jugador
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -346,6 +344,7 @@ void Level::handleEvents()
 // Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 void Level::update() 
 {
+	//Cuenta altras del tiempo si se esta jugando
 	if (jugando)
 	{
 		deltaTime = (clock() - lastTime);
@@ -365,6 +364,7 @@ void Level::update()
 		}
 	}
 
+	//Si mabos jugadores estan en sus posiciones de meta correspondeintes se pide y imput nombre y se abre el ranking
 	if (jugadores[0]->getPosicionRealX() == (float)miMap.getGanadorVerdeX() && jugadores[0]->getPosicionRealY() == (float)miMap.getGanadorVerdeY() && jugadores[1]->getPosicionRealX() == (float)miMap.getGanadorRojoX() && jugadores[1]->getPosicionRealY() == (float)miMap.getGanadorRojoY())
 	{
 		if (jugadores[0]->getDireccion() == NONE && jugadores[1]->getDireccion() == NONE)
@@ -402,9 +402,10 @@ void Level::update()
 	movimientos[0] = jugadores[0]->getMovimientos();
 	movimientos[1] = jugadores[1]->getMovimientos();
 
-
+	//Updatea los valores del HUD
 	miHUD.update(time, movimientos);
 
+	//Determina hacia dodne se desplaza el jugador siempre y cuadno ya esté en su posición destino y su direccion no sea nula
 	if(jugadores[0]->getPosicionX() == jugadores[0]->getPosicionRealX() || jugadores[0]->getPosicionY() == jugadores[0]->getPosicionRealY() || jugadores[1]->getPosicionX() == jugadores[1]->getPosicionRealX() || jugadores[1]->getPosicionY() == jugadores[1]->getPosicionRealY())
 	{ 
 		if ((jugadores[0]->getDireccion() != Direcciones::NONE && jugadores[1]->getDireccion() != Direcciones::NONE) && (jugadores[0]->getDireccion() == jugadores[1]->getDireccion()))
@@ -414,7 +415,7 @@ void Level::update()
 	}
 
 
-
+	//Ejecuta el update de los jugadores siempre y cuadno su movimiento no sea nulo
 	if (jugadores[0]->getDireccion() != Direcciones::NONE || jugadores[1]->getDireccion() != Direcciones::NONE)
 	{
 		for (int i = 0; i < 2; i++)
@@ -431,11 +432,11 @@ void Level::update()
 // Función encargada de dibujar la escena
 void Level::draw()
 {
-	Renderer::Instance()->Clear(); // Fem el clear per a començar el draw.
+	Renderer::Instance()->Clear(); 
 
-	Renderer::Instance()->PushImage("IMG_BACKGROUND", bgRect); // Dibuixem el background.
+	Renderer::Instance()->PushImage("IMG_BACKGROUND", bgRect); 
 
-	// Dibuixem el mapa.
+	
 	miMap.draw();
 
 	miHUD.draw();
@@ -445,9 +446,10 @@ void Level::draw()
 		jugadores[i]->draw();
 	}
 
-	Renderer::Instance()->Render(); // Fem el render al final del draw.
+	Renderer::Instance()->Render(); 
 }
 
+//Función que comprueba para todos los casos que los dos jugadores no se superpongan en caso de estar en la misma fila/comlumna.
 void Level::colisionesJugadores(Direcciones dir)
 {
 	if (dir == Direcciones::UP)

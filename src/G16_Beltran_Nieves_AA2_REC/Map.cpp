@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-
+//Constructor del mapa
 Map::Map()
 {
 
@@ -20,16 +20,18 @@ Map::Map()
 
 }
 
-
+//Destructor del mapa
 Map::~Map()
 {
 }
 
+//Devuelve el vector con los rectangulos ocupados
 std::vector<SDL_Rect> Map::devolverRectOcupado()
 {
 	return rectOcupado;
 }
 
+//Inicializa el vector con los rectangulos ocupados
 void Map::inicializarRectOcupado()
 {
 	for (int y = 0; y<Y_MAPA; y++)
@@ -49,70 +51,79 @@ void Map::inicializarRectOcupado()
 	}
 }
 
-std::string Map::devolverContenidoPosicion(/*const*/ int & x, /*const*/ int & y)
+//Devuelve el contenido de las coordenadas dadads
+std::string Map::devolverContenidoPosicion( int & x,  int & y)
 {
 	return tablaPosiciones[{x, y}];
 }
 
+//Añade posicion ocupada
 void Map::añadirPosicionOcupada(const SDL_Rect & r)
 {
 	rectOcupado.push_back(r);
 }
 
+//Añade item
 void Map::añadirItem(const std::string & i, const int & k1, const int & k2)
 {
 	tablaPosiciones[{k1, k2}] = i;
 }
 
+//Determina cuadrado de meta rojo
 void Map::setGanadorRojo(int x, int y)
 {
 	ganadorRojoX = x;
 	ganadorRojoY = y;
 }
 
+//Determina cuadrado de meta verde
 void Map::setGanadorVerde(int x, int y)
 {
 	ganadorVerdeX = x;
 	ganadorVerdeY = y;
 }
 
+//Devuelve la X del cuadrado de meta rojo
 int Map::getGanadorRojoX()
 {
 	return ganadorRojoX;
 }
 
+//Devuelve la Y del cuadrado de meta rojo
 int Map::getGanadorRojoY()
 {
 	return ganadorRojoY;
 }
 
+//Devuelve la X del cuadrado de meta verde
 int Map::getGanadorVerdeX()
 {
 	return ganadorVerdeX;
 }
 
+//Devuelve la Y del cuadrado de meta verde
 int Map::getGanadorVerdeY()
 {
 	return ganadorVerdeY;
 }
 
 
+
 void Map::update()
 {
 }
 
+//Dibuja el mapa en pantalla
 void Map::draw()
 {
-	// Recorrem l'unordered map table en la seva totalitat.
+
 	for (int y = 0; y<Y_MAPA; y++)
 	{
 		for (int x = 0; x < X_MAPA; x++)
 		{
-			// Actualitzem les variables per a així anar imprimint els obstacles/items quan fagi falta.
 			rectItems.x = 0 + x*TAMAÑO_SPRITE* 3 / 2;
 			rectItems.y = 80 + y*TAMAÑO_SPRITE* 3 / 2;
-			// Si l'element x,y de table és buit, no imprimirem res.
-			// Pels altres casos, imprimirem el que toqui.
+			
 			if (tablaPosiciones[{x, y}] == "MURO")
 			{
 				Renderer::Instance()->PushSprite("Items", muro, rectItems);

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Game.h"
 
+//Constructor game
 Game::Game()
 {
 	//Al iniciar el juego lo hacemos en la escena MENU
@@ -49,7 +50,7 @@ Game::Game()
 }
 
 
-
+//Destructor game
 Game::~Game()
 {
 }

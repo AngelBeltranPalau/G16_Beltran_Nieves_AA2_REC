@@ -17,7 +17,7 @@ public:
 	// Función que devuelve el rectanguloBoton del botón
 	SDL_Rect devolverRectangulo();
 
-	//Funcio que inicialitzara el boto quan creem l'objecte boto des de menu.
+	//Funcion que inicialitza el botón cuadno se crea el objeto botón
 	Button inicializarBoton(SDL_Rect &nuevoRectangulo);
 
 };

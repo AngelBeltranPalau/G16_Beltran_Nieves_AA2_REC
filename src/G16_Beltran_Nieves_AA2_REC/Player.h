@@ -5,7 +5,7 @@
 #pragma once
 
 
-// Enum de moviment.
+// Enum con todas las direcciones que puede tomar el jugador.
 enum Direcciones { UP, LEFT, DOWN, RIGHT, NONE };
 
 
@@ -16,14 +16,16 @@ private:
 	//Determinar se es el jugador 1 o 2
 	int numJugador;
 
-	// Movimientos restantes del jugador.
+	//Movimientos restantes del jugador
 	int movimientos;
 
-	// Posición del jugador
+	//Coordenadas de la posición hacia la que va el jugador
 	int posicionX, posicionY;
+
+	//Coordenadas de la posición actual del jugador
 	float posicionRealX, posicionRealY;
 
-	// Rectangulo del sprite jugador.
+	//Rectangulo del sprite jugador
 	SDL_Rect RectanguloSprite;
 
 	//Rectangulo para cada dirección del Sprite
@@ -48,6 +50,7 @@ private:
 	//Determinar si se mueve
 	bool moviendose;
 
+	//Dirección actual del jugador
 	Direcciones direccion;
 
 
@@ -55,33 +58,42 @@ private:
 
 public:
 
+	//Crear y obtener los rectangulos del jugador y de su sprite
 	void setRectanguloSprite(SDL_Rect sprite);
 	SDL_Rect getRectanguloSprite();
 	void setRectangulo(SDL_Rect sprite);
 	SDL_Rect getRectangulo();
 
+	//Determinar y obtener la dirección hacia la que se desplaza el jugador
 	void setDireccion(Direcciones direccion);
 	Direcciones getDireccion();
 
+	//Determinar y obtener la posición hacia la que se desplaza el jugador
 	void setPosicion(int x, int y);
 	int getPosicionX();
 	int getPosicionY();
+
+	//Determinar y obtener la posición actual del jugador
+	void setPosicionRealX();
+	void setPosicionRealY();
 	int getPosicionRealX();
 	int getPosicionRealY();
 	
+	//Determinar y obtener si el jugador se está desplazando o no
 	void setMoviendose();
 	bool getMoviendose();
-
-	void setPosicionRealX();
-	void setPosicionRealY();
-
+	
+	//Determinar y obtenerlos movimientos del jugador
 	int getMovimientos();
 	void setMovimientos(int x);
 
+	//Reducir los movimientos restantes del jugadors si este se ha desplazado
 	void reducirMovimiento();
 
-
+	// Función encargada de actualizar la escena en función de los eventos que sucedan y de los inputs del jugador
 	void update ();
+
+	// Función encargada de dibujar la escena
 	void draw();
 	
 	// Constructor de player.

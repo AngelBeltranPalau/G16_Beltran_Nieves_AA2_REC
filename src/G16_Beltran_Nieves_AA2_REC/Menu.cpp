@@ -67,6 +67,7 @@ Menu::Menu()
 
 }
 
+//Actua en funcion de imputs y enventos
 void Menu::handleEvents()
 {
 	SDL_Event evento;
@@ -129,6 +130,7 @@ void Menu::handleEvents()
 	}
 }
 
+//Actualiza la información
 void Menu::update()
 {
 	// Si se pulsa el boton Level 1, se cambia el estado de la escena a GOLEVEL1
@@ -154,6 +156,7 @@ void Menu::update()
 
 };
 
+//Dibuja en pantalla
 void Menu::draw()
 {
 	// Limpiamos toda la pantalla antes de dibujar
@@ -199,7 +202,7 @@ void Menu::draw()
 	Renderer::Instance()->Render(); // Hacemos el Render después de dibujarlo todo
 }
 
-
+//Destructor del menu
 Menu::~Menu()
 {
 

@@ -2,9 +2,7 @@
 #include <string>
 
 
-// Constructor del HUD.
-// Creem el rect del nostre HUD. - Fet.
-// Carguem la font del HUD. - Fet.
+// Constructor del HUD donde se determina la fuetne, el texto etc.
 HUD::HUD()
 {
 
@@ -28,7 +26,7 @@ HUD::HUD()
 
 }
 
-// Simplement actualitzem les variables
+//Actualiza las variables del HUD
 void HUD::update(int &t, std::vector<int> &movimientos)
 {
 	tiempoHud = t;
@@ -53,7 +51,7 @@ void HUD::update(int &t, std::vector<int> &movimientos)
 
 }
 
-// Imprimim les variables del HUD.
+// Imprime en pantalla las avriables del HUD
 void HUD::draw()
 {
 	Renderer::Instance()->PushImage("PlMoves1", plMoves1Rect);
@@ -66,6 +64,7 @@ void HUD::draw()
 
 }
 
+//Destructor del HUD
 HUD::~HUD()
 {
 

@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-
+//Constructor del player
 Player::Player(const int &num)
 {
 	numJugador = num;
@@ -45,96 +45,99 @@ Player::~Player()
 
 }
 
-//SDL_Rect Player::getRectanguloSprite()
-//{
-//	return RectanguloSprite;
-//}
-//
-//SDL_Rect Player::getRectangulo()
-//{
-//	return Rectangulo;
-//}
-
+//Determina la direccion del jugador 
 void Player::setDireccion(Direcciones dir)
 {
 	direccion = dir;
 }
+
+//Devuelve la direccion del jugador
 Direcciones Player::getDireccion()
 {
 	return direccion;
 }
 
+//Determina la posición destino del jugador
 void Player::setPosicion(int x, int y)
 {
 	posicionX = x;
 	posicionY = y;
 }
 
-int Player::getPosicionX()
-{
-	return posicionX;
-}
-
-int Player::getPosicionY()
-{
-	return posicionY;
-}
-
-int Player::getPosicionRealX()
-{
-	return posicionRealX;
-}
-
-int Player::getPosicionRealY()
-{
-	return posicionRealY;
-}
-
-void Player::setMoviendose()
-{
-	moviendose = true;
-}
-
-bool Player::getMoviendose()
-{
-	return moviendose;
-}
-
+//Determina la X de la posición actual del jugador
 void Player::setPosicionRealX()
 {
 	posicionRealX = posicionX + 1;
 }
 
+//Determina la Y de la posición actual del jugador
 void Player::setPosicionRealY()
 {
 	posicionRealY = posicionY + 1;
 }
 
-void Player::reducirMovimiento()
+//Devuelve la X de la posición destino del jugador
+int Player::getPosicionX()
 {
-	movimientos--;
+	return posicionX;
 }
 
-int Player::getMovimientos()
+//Devuelve la Y de la posición destino del jugador
+int Player::getPosicionY()
 {
-	return movimientos;
+	return posicionY;
 }
 
+//Devuelve la X de la posición actual del jugador
+int Player::getPosicionRealX()
+{
+	return posicionRealX;
+}
+//Devuelve la Y de la posición actual del jugador
+int Player::getPosicionRealY()
+{
+	return posicionRealY;
+}
+
+//Determina si el jugador se esta desplazando
+void Player::setMoviendose()
+{
+	moviendose = true;
+}
+
+//Devuleve si el jugador se está desplazando
+bool Player::getMoviendose()
+{
+	return moviendose;
+}
+
+//Determina los movimientos restantes del jugador
 void Player::setMovimientos(int x)
 {
 	movimientos = x;
 }
 
+//Devuelve los movimientos restantes del jugador
+int Player::getMovimientos()
+{
+	return movimientos;
+}
+
+//Reduce los movimietnos restantes del jugador
+void Player::reducirMovimiento()
+{
+	movimientos--;
+}
+
+
+//Determina el rectandulo de sprite del jugador
 void Player::setRectanguloSprite(SDL_Rect rect) 
 {
 	RectanguloSprite = rect;
 }
 
-//void Player::setRectangulo(SDL_Rect rect)
-//{
-//	Rectangulo = rect;
-//}
 
+//Dibuja por pantalla el jugador
 void Player::draw() 
 {
 	if (numJugador == 1)
@@ -154,7 +157,7 @@ void Player::draw()
 }
 
 
-
+//Actualiza las variables del jugador
 void Player::update()
 {
 		float auxX = posicionX - (posicionRealX);
